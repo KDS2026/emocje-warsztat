@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#c62828">
+  <title>EMOCJE — warsztat o dezinformacji</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="logos.css">
+  <link rel="stylesheet" href="workshop.css">
+</head>
+<body>
+  <a class="skip-link" href="#slide">Przejdź do treści</a>
+  <header class="topbar">
+    <button class="brand" id="overviewButton" aria-expanded="false" aria-controls="overview" title="Pokaż mapę warsztatu"><span class="brand-mark">E</span><span>EMOCJE</span></button>
+    <div class="progress-wrap" aria-label="Postęp warsztatu"><div class="progress" id="progress"></div></div>
+    <p class="counter" id="counter">01 / 20</p>
+  </header>
+
+  <aside class="overview" id="overview" aria-label="Mapa warsztatu" hidden></aside>
+
+  <main class="shell">
+    <section id="slide" class="slide" aria-live="polite"></section>
+  </main>
+
+  <footer class="controls" aria-label="Nawigacja">
+    <button class="nav-button" id="backButton" type="button">← <span>Wstecz</span></button>
+    <div class="hint" id="stageLabel"></div>
+    <button class="nav-button primary" id="nextButton" type="button"><span>Dalej</span> →</button>
+  </footer>
+  <script src="app.js"></script>
+  <script src="workshop.js"></script>
+</body>
+</html>
