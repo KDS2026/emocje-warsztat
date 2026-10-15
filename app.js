@@ -27,7 +27,7 @@ const slides = [
 let current = 0;
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
-const media = (file, label) => `<div class="video-panel"><video controls preload="metadata" playsinline aria-label="${esc(label)}"><source src="${M + file}" type="video/mp4">Twoja przeglądarka nie obsługuje filmu.</video><div class="media-label"><span class="play">▶</span>${esc(label)}</div></div>`;
+const media = (file, label) => `<div class="video-panel"><video controls preload="metadata" playsinline aria-label="${esc(label)}"><source src="${M + file}?v=loga-20261015" type="video/mp4">Twoja przeglądarka nie obsługuje filmu.</video><div class="media-label"><span class="play">▶</span>${esc(label)}</div></div>`;
 const image = (file, cls='image-side') => `<img class="${cls}" src="${A+file}" alt="" aria-hidden="true">`;
 const header = (s) => `${s.eye ? `<p class="eyebrow">${s.eye}</p>`:''}<h1 class="title ${s.title.length>34?'mid':''}">${s.title}</h1>`;
 
