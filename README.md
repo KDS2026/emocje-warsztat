@@ -2,7 +2,7 @@
 
 Aplikacja do prowadzenia warsztatu dla uczniów, w dwóch blokach po 45 minut.
 
-20 plansz z kolejnymi odsłonami, cztery filmy, głosowanie kartonikami, ręcznie uruchamiane minutniki i ćwiczenia w podgrupach. Odpowiedzi odsłania prowadzący.
+20 plansz z kolejnymi odsłonami, cztery krótkie filmy i film „Anatomia spisku: 5G i pandemia” przy planszy 8, głosowanie kartonikami, ręcznie uruchamiane minutniki i ćwiczenia w podgrupach. Odpowiedzi odsłania prowadzący.
 
 ## Uruchomienie
 

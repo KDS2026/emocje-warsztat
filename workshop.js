@@ -52,6 +52,7 @@ function renderWorkshop(s){
     if(phase===1)return frame(s.title,cards(s.cards),{eye:'Jak działa FUD · wiadomość Oli'});
     return frame('Brak gwarancji to nie dowód zagrożenia.',`<p class="lead">Jakie są dowody szkody?</p><p>To inne pytanie niż: „Czy możesz wykluczyć wszystko?”.</p>${call('Sama emocja nie dowodzi ani prawdy, ani fałszu.')}`,{eye:'Przeczytajmy razem'});
   }
+  if(current===7 && phase===0)return renderBase(s).replace(/<\/div>$/,`<details class="long-film"><summary><span>▶ Zobaczmy to na filmie</span><span class="long-film-title">Anatomia spisku: 5G i pandemia · 10:59</span></summary><div class="long-film-body"><p>Jak niepewność zmienia się w opowieść o winnych? Zwróćcie uwagę na moment, w którym zbieżność w czasie zostaje przedstawiona jako dowód przyczyny.</p>${media('anatomia-spisku-5g-pandemia.mp4','Anatomia spisku: 5G i pandemia').replace('preload="metadata"','preload="none"')}</div></details></div>`);
   if(current===7 && phase===1)return frame('Ostrzeżenie czy presja?',cards([['Sprawdzalne ostrzeżenie','„Wykryto zagrożenie. Służby podają zakres i zalecenia.”'],['Emocja i presja','„Oni wiedzą, ale milczą. Udostępnij!”']])+call('Lęk może towarzyszyć prawdziwemu ostrzeżeniu. Sprawdź jego podstawy.'));
   if(current===8){
     if(phase===0)return film(s);
@@ -127,6 +128,7 @@ function show(index,stage=0){
   $('#nextButton').innerHTML=`<span>${last?'Koniec':(current===14&&phase%2===0)?'Odsłoń odpowiedź':'Dalej'}</span> ${last?'✓':'→'}`;
   document.title=`${current+1}. ${s.title} — EMOCJE`;
   renderOverview();setupTimer();
+  const filmPanel=$('.long-film');if(filmPanel)filmPanel.addEventListener('toggle',()=>{if(!filmPanel.open)filmPanel.querySelector('video')?.pause();});
   const r=$('#reveal');if(r)r.onclick=()=>{$('#answer').hidden=false;r.hidden=true;};
   window.scrollTo({top:0,behavior:'instant'});
 }
