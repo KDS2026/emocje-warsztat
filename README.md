@@ -20,6 +20,6 @@ Można również pobrać całe repozytorium i otworzyć `index.html` w przegląd
 
 ## Publikacja
 
-GitHub Pages udostępnia katalog główny gałęzi `main`. Filmy warsztatowe i grafiki są częścią aplikacji. Dwa nagrania archiwalne Euronews są odtwarzane z serwera wydawcy i wymagają internetu; nie są dołączone do repozytorium. Nagranie z Londynu zatrzymuje się po 45 sekundach. Nie ma tu podcastu ani materiałów kursu dla prowadzącego.
+GitHub Pages udostępnia katalog główny gałęzi `main`. Filmy warsztatowe i grafiki są częścią aplikacji. Archiwalny film Euronews o 5G i pandemii ma dodanego polskiego lektora i ściszoną francuską ścieżkę w tle; jest dołączony do aplikacji. Ostatni kadr przedłużono do końca lektora (całość około 63 sekundy). Nagranie Euronews z Londynu jest odtwarzane z serwera wydawcy, wymaga internetu i zatrzymuje się po 45 sekundach. Nie ma tu podcastu ani materiałów kursu dla prowadzącego.
 
 Znaki organizacji i informacja o dofinansowaniu są wyświetlane w formie dostarczonego pasa logotypów.
