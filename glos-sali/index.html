@@ -80,6 +80,7 @@ body{padding-bottom:28px}.wrap{max-width:560px}.branding{margin-bottom:8px!impor
 .anonymous-note{font-weight:800;font-size:clamp(22px,6vw,28px)!important;line-height:1.2!important;color:#D9232E;margin-top:16px!important}.intro{grid-template-columns:1fr 108px}@media(max-width:370px){.intro{grid-template-columns:1fr 80px}}
 </style></head><body><main class="wrap"><div class="branding"><img src="https://raw.githubusercontent.com/KDS2026/emocje-warsztat/main/assets/project-logos.png" alt="Tour de Konstytucja PLUS · Nie daj się zrollować · Kompas Młodego Obywatela · Fundacja Aktywna Demokracja"></div><div class="intro"><div><h1><span>Głos sali.<br>Teraz Ty!</span></h1><p>Trzy pytania. Twoje spojrzenie.</p><p class="anonymous-note">Wszystkie odpowiedzi są anonimowe.</p></div><img class="hero" src="https://raw.githubusercontent.com/KDS2026/emocje-warsztat/main/assets/glos-sali/mozg-kolaz.png" alt="Mózg z kolażu z kolorowego papieru"></div><div class="dots" id="dots" aria-label="Postęp"></div><div id="ekran"></div><p class="privacy">Bez imion, nazwisk i adresów e-mail. Nie wpisuj danych osobowych. Odpowiedzi zobaczymy na ekranie sali.</p><div id="live" role="status" aria-live="polite"></div></main><script>
 const QUESTIONS=['Kto daje się nabrać na dezinformację?','Czy umiesz rozpoznać dezinformację?','Czy ludzie w Polsce umieją rozpoznać dezinformację?'];
+const context=new URLSearchParams(location.search);const round=context.get('runda')||'przed';const city=(context.get('miejscowosc')||'').trim();
 const OPTIONS=['nie','raczej nie','raczej tak','tak'];
 let n=0,answers=['','',''],busy=false,finished=false;
 const submissionId=crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);
@@ -94,12 +95,13 @@ window.glosReceipt=function(r){const f=window.glosPending&&window.glosPending[r.
 function submitAnswers(values,id,onSuccess,onFailure){
  let done=false,checks=0;const pending=window.glosPending||(window.glosPending={});
  const finish=()=>{if(done)return;done=true;delete pending[id];onSuccess({ok:true})};pending[id]=finish;
- fetch(API,{method:'POST',mode:'no-cors',credentials:'omit',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({answers:values,id})}).catch(()=>{});
+ fetch(API,{method:'POST',mode:'no-cors',credentials:'omit',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({answers:values,id,round,city})}).catch(()=>{});
  function poll(){if(done)return;if(++checks>35){done=true;delete pending[id];onFailure();return}const tag=document.createElement('script');tag.src=API+'?action=receipt&id='+encodeURIComponent(id)+'&t='+Date.now();tag.onload=tag.onerror=()=>tag.remove();document.body.append(tag);setTimeout(poll,2500)}setTimeout(poll,1500);
 }
 
 function send(){if(busy||finished)return;busy=true;screen.replaceChildren();const card=el('section','card end');card.append(el('p','big','Twój głos leci na salę…'),el('div','spin'),el('p','sending','Jeszcze chwila. Zapisujemy odpowiedzi.'));screen.append(card);const timer=setTimeout(()=>{if(busy){const p=el('p','hint','Zapis trwa dłużej. Zostaw tę stronę otwartą — czekamy na potwierdzenie.');card.append(p)}},20000);
 submitAnswers(answers,submissionId,result=>{clearTimeout(timer);busy=false;if(!result||!result.ok){failure();return}finished=true;progress();screen.replaceChildren();const done=el('section','card end');const img=el('img','hero');img.src='https://raw.githubusercontent.com/KDS2026/emocje-warsztat/main/assets/glos-sali/mozg-kolaz.png';img.alt='Mózg z kolażu z kolorowego papieru';done.append(img,el('h2','big','Głos oddany!'),el('p',null,'Dzięki. Twoje odpowiedzi zostały zapisane.'),el('p','hint','Mózg odkłada gwizdek. Teraz spójrz na ekran sali.'));screen.append(done);document.getElementById('live').textContent='Odpowiedzi zostały zapisane.'},()=>{clearTimeout(timer);busy=false;failure()})}
 function failure(){screen.replaceChildren();const card=el('section','card end');card.append(el('h2','big','Coś przerwało połączenie.'),el('p',null,'Twoje odpowiedzi nadal tu są. Spróbuj ponownie — nie musisz pisać od nowa.'));const retry=el('button','act','Spróbuj ponownie');retry.onclick=send;const back=el('button','back','Wróć do odpowiedzi');back.onclick=render;card.append(retry,back);screen.append(card);document.getElementById('live').textContent='Nie otrzymaliśmy potwierdzenia zapisu.'}
-render();
+document.querySelector('.intro p').textContent='Pomiar '+round.toUpperCase()+(city?' · '+city:'');
+if(!city||!['przed','po'].includes(round)){screen.append(el('section','card','Zeskanuj aktualny kod QR z ekranu prowadzącej. Kod zawiera miejscowość i pomiar.'));}else render();
 </script></body></html>
