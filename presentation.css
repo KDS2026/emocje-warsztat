@@ -1,4 +1,12 @@
 /* Jedno stałe płótno 1200 × 675, skalowane bez zmiany proporcji. */
+/* Nawigacja należy do obszaru pełnoekranowego, ale nie zasłania planszy. */
+.shell.shell{padding:0;grid-template-rows:minmax(0,1fr) auto}
+.shell > .controls{position:static;width:100%;background:var(--paper)}
+.controls .nav-button{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:112px;min-height:44px}
+.controls .nav-arrow{display:inline-block;font:700 28px/1 Arial,sans-serif}
+.controls .nav-button:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.controls[inert]{opacity:.45}
+@media(max-width:720px){.controls .nav-button{min-width:64px;gap:5px}.controls .hint{max-width:100px}.controls .nav-arrow{font-size:24px}}
 .slide-inner .post.has-chat-attachment{padding:18px}
 .slide-inner .has-chat-attachment .forum-heading{font-size:16px;padding-bottom:7px;margin-bottom:10px}
 .slide-inner .has-chat-attachment .post-copy{font-size:20px;line-height:1.25;margin:12px 0}
