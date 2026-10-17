@@ -12,6 +12,10 @@ Strona: https://kds2026.github.io/emocje-warsztat/
 
 Przyciski Wstecz i Dalej przełączają odsłony. Kliknięcie EMOCJE otwiera mapę warsztatu. Filmy uruchamia się przyciskiem odtwarzania. Aplikacja nie wymaga logowania.
 
+„Start lekcji 1” uruchamia niezależny zegar do 45:00. Obok planowanej minuty widoczny jest w nawiasie czas rzeczywisty, np. `10′ (12:34)`. Liczenie trwa podczas filmów, ćwiczeń, omówień i pracy w innej karcie; po powrocie czas wynika z zapisanego momentu startu, a nie liczby odświeżeń zegara. Odświeżenie strony w tej samej karcie zachowuje zegary, jeśli przeglądarka pozwala korzystać z pamięci sesji. Niebieski czas oznacza zgodność z przedziałem danej planszy (od jej minuty do następnej późniejszej minuty w tej samej lekcji), czerwony — opóźnienie, zielony — zbyt szybkie tempo.
+
+Po planszy PRZERWA należy nacisnąć „Start lekcji 2”. Drugi zegar zaczyna od zera i również kończy na 45:00. Zegary nie mają pauzy i nie zerują się przy przełączaniu plansz. Przycisk ↺ rozpoczyna nowe zajęcia przez wyzerowanie obu zegarów, po potwierdzeniu. Minutniki ćwiczeń pozostają niezależne.
+
 Można również pobrać całe repozytorium i otworzyć `index.html` w przeglądarce. Należy zachować katalog `assets`.
 
 ## Publikacja

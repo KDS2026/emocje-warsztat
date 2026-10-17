@@ -149,8 +149,40 @@ const removedStages=new Set(['11:1','12:0','16:7','16:8']);
 deck.forEach(g=>{g.stages=g.stages.filter(s=>!removedStages.has(`${s.layoutPlan}:${s.layoutPhase}`));});
 deck=deck.filter(g=>g.stages.length);
 const totalPages=deck.reduce((sum,g)=>sum+g.stages.length,0);
+// Przedział planszy kończy się przy następnej późniejszej minucie tej samej lekcji.
+const lessonTimeline=deck.flatMap(g=>g.stages.map(s=>({stage:s,lesson:g.lesson})));
+lessonTimeline.forEach(({stage,lesson},i)=>{
+  stage.clockUntil=lessonTimeline.slice(i+1).find(x=>x.lesson===lesson&&x.stage.minute>stage.minute)?.stage.minute??45;
+});
+const lessonClock=window.WorkshopLessonClock.create();
 let current=0,phase=0,timerId=null,remaining=0,deadline=0,returnFocus=null;
 const format=n=>`${Math.floor(n/60)}:${String(n%60).padStart(2,'0')}`;
+function drawLessonClock(){
+  const lesson=deck[current].lesson,s=deck[current].stages[phase];
+  const seconds=lessonClock.elapsed(lesson),actual=$('#lessonActual');
+  const status=window.WorkshopLessonClock.timing(seconds,s.minute,s.clockUntil);
+  if(actual){
+    actual.textContent=seconds===null?'(—)':`(${format(seconds)})`;
+    actual.dataset.timing=status;
+    const description=seconds===null?'Zegar nie został uruchomiony':`Czas rzeczywisty ${format(seconds)} z 45:00. ${status==='ahead'?'Tempo szybsze niż plan':status==='late'?'Tempo wolniejsze niż plan':'W przedziale planowanym dla tej planszy'}`;
+    actual.setAttribute('aria-label',description);
+    actual.parentElement.title=`Lekcja ${lesson}. Plan: ${s.minute}–${s.clockUntil} min. ${description}`;
+  }
+  const start=$('#lessonStart');
+  start.disabled=s.breakOnly||seconds!==null;
+  start.textContent=s.breakOnly?'Lekcja 2 — po przerwie':seconds===null?`Start lekcji ${lesson}`:seconds>=2700?`Lekcja ${lesson} · koniec 45 min`:`Lekcja ${lesson} · zegar działa`;
+  start.title=s.breakOnly?'Przejdź za planszę PRZERWA i uruchom zegar drugiej lekcji.':'Zegar liczy nieprzerwanie do 45 minut, także podczas filmów i omówień.';
+  $('#lessonReset').hidden=lessonClock.elapsed(1)===null&&lessonClock.elapsed(2)===null;
+}
+$('#lessonStart').onclick=()=>{lessonClock.start(deck[current].lesson);drawLessonClock();fit();$('#slide').focus({preventScroll:true});};
+$('#lessonReset').onclick=()=>{
+  if(!window.confirm('Rozpocząć nowe zajęcia? Zegary obu lekcji zostaną wyzerowane.'))return;
+  lessonClock.reset();drawLessonClock();fit();$('#slide').focus({preventScroll:true});
+};
+// Nie korzysta z minutników ćwiczeń ani zdarzeń odtwarzacza. Zmiana planszy go nie zatrzymuje.
+setInterval(drawLessonClock,500);
+document.addEventListener('visibilitychange',drawLessonClock);
+window.addEventListener('pageshow',drawLessonClock);
 const timer=n=>`<div class="work-timer" data-seconds="${n}"><output aria-label="Pozostały czas">${format(n)}</output><button class="work-button" id="timerToggle">Start</button><button class="work-button secondary" id="timerReset">Od nowa</button><p id="timerNotice" role="status"></p></div>`;
 function stopTimer(){clearInterval(timerId);timerId=null;}
 function pauseMedia(){$$('video').forEach(v=>v.pause());}
@@ -173,7 +205,8 @@ else if(s.infographic)el.innerHTML=`<div class="slide-inner infographic-inner">$
 else if(s.quizAnswer)el.innerHTML=`<div class="slide-inner review-answer-inner">${pageLabel}<div id="reviewRecognition" class="review-recognition"><h1 class="title mid">Rozpoznany mechanizm · ${s.reviewIndex+1} / 6</h1>${reviewPost(s.reviewText,s.reviewIndex)}<button type="button" id="reviewExpand" class="mechanism-result" aria-expanded="false" aria-controls="reviewDetail" aria-label="${s.mechanism} — rozwiń omówienie"><strong>${s.mechanism}</strong><span class="mechanism-expand-hint">Rozwiń omówienie</span><span class="mechanism-plus" aria-hidden="true">＋</span></button></div><div id="reviewDetail" class="review-detail explanation-review" hidden><div class="review-detail-header"><h1 class="review-context">Przykład ${s.reviewIndex+1} · ${s.mechanism}</h1><button type="button" id="reviewCollapse" class="work-button" aria-expanded="true" aria-controls="reviewDetail">− Zwiń omówienie</button></div><blockquote class="review-excerpt">„${esc(s.reviewText)}”</blockquote>${explanationMarkup(s.explanation)}</div></div>`;
 else if(s.question)el.innerHTML=`<div class="slide-inner reflection-inner">${pageLabel}<div class="reflection-layout"><div class="reflection-question"><h1 class="title mid">${s.title}</h1></div><div class="reflection-art">${art}</div></div></div>`;
 else el.innerHTML=`<div class="slide-inner ${s.compactPost?'recall':''}">${s.simulation?'<span class="simulation-label">SYMULACJA</span>':''}${pageLabel}<h1 class="title mid">${s.title}</h1>${art?`<div class="split"><div class="work-content">${body}</div>${art}</div>`:`<div class="work-content">${body}</div>`}</div>`;
-el.insertAdjacentHTML('beforeend',`<span class="lesson-minute" title="Lekcja ${deck[current].lesson}: orientacyjna minuta ${s.minute}">${String(s.minute).replace('.',',')}′</span>`);
+el.insertAdjacentHTML('beforeend',`<span class="lesson-minute">${String(s.minute).replace('.',',')}′ <span class="lesson-actual" id="lessonActual"></span></span>`);
+drawLessonClock();
 $('#counter').textContent=`${String(pageNumber).padStart(2,'0')} / ${totalPages}`;$('#progress').style.width=`${pageNumber/totalPages*100}%`;$('#stageLabel').textContent=`${deck[current].title} · ${phase+1}/${deck[current].stages.length}`;$('#backButton').disabled=!current&&!phase;$('#nextButton').disabled=current===deck.length-1&&phase===deck[current].stages.length-1;$('#nextButton').innerHTML=`<span>${s.quiz&&!s.quizAnswer?'Odsłoń odpowiedź':'Dalej'}</span> <span class="nav-arrow" aria-hidden="true">→</span>`;$('#nextButton').setAttribute('aria-label',s.quiz&&!s.quizAnswer?'Odsłoń odpowiedź — następna plansza':'Następna plansza');document.title=`${pageNumber}. ${deck[current].title} — W1 EMOCJE`;
 $('#overview').innerHTML='<p class="overview-title">Mapa warsztatu</p>'+deck.map((d,i)=>`<button data-go="${i}" class="${i===current?'active':''}"><small>${i+1}</small>${d.title}</button>`).join('');$$('[data-go]').forEach(b=>b.onclick=()=>{closeOverview();show(+b.dataset.go);});if($('#reveal'))$('#reveal').onclick=()=>{const open=$('#answer').hidden;$('#answer').hidden=!open;$('#reveal').setAttribute('aria-expanded',String(open));$('#reveal').innerHTML=open?'← Wróć do pytania i przykładu':`${s.answerLabel||'Porównajcie z wyjaśnieniem'} <span aria-hidden="true">＋</span>`;el.classList.toggle('answer-open',open);el.querySelectorAll('.graphic-preview').forEach(b=>b.inert=open);};if(s.quizAnswer){const toggleReview=open=>{$('#reviewRecognition').hidden=open;$('#reviewDetail').hidden=!open;$('#reviewExpand').setAttribute('aria-expanded',String(open));(open?$('#reviewCollapse'):$('#reviewExpand')).focus({preventScroll:true});};$('#reviewExpand').onclick=()=>toggleReview(true);$('#reviewCollapse').onclick=()=>toggleReview(false);}setupTimer();fit();el.focus({preventScroll:true});}
 function next(){if(phase+1<deck[current].stages.length)show(current,phase+1);else if(current+1<deck.length)show(current+1);}

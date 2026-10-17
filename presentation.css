@@ -1,4 +1,17 @@
 /* Jedno stałe płótno 1200 × 675, skalowane bez zmiany proporcji. */
+.shell > .controls{grid-template-columns:auto minmax(0,1fr) auto}
+.controls-center{display:grid;justify-items:center;gap:4px;min-width:0}
+.controls .controls-center .hint{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lesson-clock-actions{display:flex;align-items:center;justify-content:center;gap:5px;min-height:28px;flex-wrap:wrap}
+.lesson-clock-button{font:600 11px/1.2 var(--body);padding:5px 8px;min-height:28px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+.lesson-clock-button:disabled{cursor:default;background:transparent;color:#645855}
+.lesson-clock-button:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.lesson-clock-button[hidden]{display:none}
+.slide .lesson-minute{z-index:60;background:var(--paper);padding:2px 4px;border-radius:2px;pointer-events:auto;font-variant-numeric:tabular-nums;color:#716562}
+.slide .lesson-actual{color:#221b1b;font:inherit}
+.slide .lesson-actual[data-timing="on-time"]{color:#1756a9}
+.slide .lesson-actual[data-timing="late"]{color:var(--red)}
+.slide .lesson-actual[data-timing="ahead"]{color:#23734e}
 .review-stage .slide-inner .mechanism-options{display:block;font:800 40px/1.2 var(--body);color:var(--red);word-spacing:10px;margin:4px 0}
 .review-answer-inner .review-recognition{display:flex;flex-direction:column;gap:24px;flex:1;min-height:0}
 .review-answer-inner .review-recognition .review-post{margin-top:16px}
