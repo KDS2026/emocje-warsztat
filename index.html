@@ -4,23 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#c62828">
+  <link rel="icon" href="assets/app-icon.png" type="image/png">
   <title>EMOCJE — warsztat o dezinformacji</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="logos.css">
   <link rel="stylesheet" href="workshop.css?v=film-5g-20261015">
+  <link rel="stylesheet" href="presentation.css?v=zrzut-na-forum-20261016">
 </head>
 <body>
   <a class="skip-link" href="#slide">Przejdź do treści</a>
   <header class="topbar">
     <button class="brand" id="overviewButton" aria-expanded="false" aria-controls="overview" title="Pokaż mapę warsztatu"><span class="brand-mark">E</span><span>EMOCJE</span></button>
     <div class="progress-wrap" aria-label="Postęp warsztatu"><div class="progress" id="progress"></div></div>
-    <p class="counter" id="counter">01 / 20</p>
+    <button class="small-button" id="extrasButton">Materiały +</button>
+    <button class="small-button" id="fullscreenButton" aria-pressed="false">⛶ Pokaż cały ekran</button>
+    <p class="counter" id="counter">01 / 60</p>
   </header>
 
   <aside class="overview" id="overview" aria-label="Mapa warsztatu" hidden></aside>
 
   <main class="shell">
-    <section id="slide" class="slide" aria-live="polite"></section>
+    <section id="slide" class="slide" tabindex="-1" aria-label="Plansza warsztatu"></section>
   </main>
 
   <footer class="controls" aria-label="Nawigacja">
@@ -29,6 +33,7 @@
     <button class="nav-button primary" id="nextButton" type="button"><span>Dalej</span> →</button>
   </footer>
   <script src="app.js?v=loga-20261015"></script>
-  <script src="workshop.js?v=film-5g-20261015"></script>
+  <script src="explanations.js?v=pelne-wyjasnienia-20261016"></script>
+  <script src="presentation.js?v=zrzut-na-forum-20261016"></script>
 </body>
 </html>

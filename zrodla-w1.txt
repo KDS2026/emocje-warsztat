@@ -1,0 +1,113 @@
+W1 EMOCJE — wersja warsztatowa według schematu W3, 16.10.2026
+
+Plan orientacyjny: dwie lekcje po 45 minut, przerwa osobno.
+Lekcja 1: 0–8 otwarcie, historia i głosowania; 8–15 emocje i uwaga;
+15–23 lęk i 5G; 23–31 złość i Southport; 31–42 lojalność i Springfield;
+42–45 podsumowanie. Cztery krótkie rolki wliczone w plan.
+Lekcja 2: 0–4 przypomnienie mechanizmów; 4–11 rozwiązanie historii,
+omówienie i pytania sprawdzające odnoszące się do kiermaszu;
+11–12 podział; 12–27 trzy rundy; 27–32 wybór i sprawdzenie pomysłów;
+32–44 wspólny plakat; 44–45 zakończenie.
+Minuty w rogu oznaczają orientacyjny punkt planu, nie działający zegar.
+Długi film 10:59 pozostaje w „Materiałach +”, poza planem dwóch lekcji.
+Tempo zależy od grupy. Nie należy czytać wszystkich wyjaśnień jak wykładu;
+warto zebrać 2–3 głosy i przejść dalej, zachowując czas na pracę uczniów.
+
+Szkolna historia, konta i liczby reakcji są fikcyjnym materiałem warsztatowym.
+Dotyczy to także liczników 2640 i9480 wyświetleń oraz156 i271 udostępnień
+na dwóch wpisach forum szkoły. Wyświetlenia nie oznaczają unikalnych osób:
+ta sama osoba może wyświetlić post wielokrotnie. Liczników dwóch postów
+nie należy sumować jako liczby różnych odbiorców ani dowodu przekonania ich.
+Wiadomość Oli pochodzi z zamkniętego czatu1A; jej zrzut trafia na publiczne
+forum liceum, gdzie kolejne posty są udostępniane także poza szkołę.
+Grafiki kolażowe są ilustracjami, nie fotografiami dokumentującymi zdarzenia.
+Intencję autora „Drugiego dzwonka” określa scenariusz. Nie da się jej ustalić
+wyłącznie na podstawie emocjonalnego tonu rzeczywistego posta.
+Brak potwierdzenia przyczyny nie oznacza dowodu jej niemożliwości.
+
+Rzeczywiste kazusy — źródła:
+5G i pandemia: WHO, Mythbusters
+https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters
+Southport: Merseyside Police, komunikat 30.07.2024
+https://www.merseyside.police.uk/news/merseyside/news/2024/july/update-on-major-incident-in-southport
+Southport: Full Fact, chronologia dezinformacji i zamieszek
+https://fullfact.org/news/misinformation-southport-stabbings/
+Springfield: PolitiFact, 9.09.2024
+https://api.politifact.com/factchecks/2024/sep/09/social-media/authorities-rebut-claims-that-haitian-immigrants-a/
+
+Materiały źródłowe warsztatu: istniejąca prezentacja W1 i scenariusz Kingi;
+krótkie filmy i ilustracje zachowane z poprzedniej wersji aplikacji.
+Instrukcje i doświadczenie projekcyjne dostosowano do uwag w rozmowie
+„W3 Mechanizmy manipulacji przekazem”, do 16.10.2026.
+
+Ponowny pełny audyt rozmowy W3: 16.10.2026.
+Materiały wizualne źródłowe dodane do plansz (nie generowane rekonstrukcje):
+- WHO, plansza z 8.04.2020, zachowana w Wikimedia Commons:
+https://commons.wikimedia.org/wiki/File:FACT-_5G_mobile_networks_DO_NOT_spread_COVID-19.png
+Lokalnie: assets/sources/who-5g.png. Historyczny komunikat pokazany w celu
+omówienia fałszywego powiązania 5G i pandemii, nie jako aktualne zalecenia sanitarne.
+- Polis Analysis, Fake News Observatory: The Anatomy of a Riot, ryc. 32,
+strona 35 pliku PDF (numer drukowany 34), archiwalny nagłówek Channel3Now:
+https://www.polisanalysis.com/_files/ugd/394c34_060df044e3c74e58a4062e8371972570.pdf
+Lokalnie: assets/sources/southport-channel3.png. Obraz wyodrębniony bez zmian.
+Użyto ryc. 32, nie błędnego zapisu miesiąca w opisie ryc. 31.
+- PolitiFact: screenshot rzeczywistego posta o Springfield, już oznaczony
+przez redakcję jako CLAIMS UNFOUNDED (bezpodstawne zarzuty):
+https://static.politifact.com/politifact/photos/springfield.jpeg.png
+Lokalnie: assets/sources/springfield-post.png. Zachowano redakcyjne oznaczenia.
+
+Schemat projekcyjny: okładka → historia → trzy wiadomości i głosowanie →
+pierwszy odruch → most do uwagi → mechanizmy, rolki i rzeczywiste kazusy →
+podsumowanie → PRZERWA → infografika → rozwiązanie historii →
+ponowna analiza konkretnych wiadomości i pełne wyjaśnienia →
+sześć przemieszanych pytań o tę historię → trzy rundy →
+sprawdzenie pomysłów → plakat → zakończenie.
+Wyjaśnienia w czerwonych polach są odsłaniane na żądanie, nie do czytania
+wszystkich słów na głos. Kontrakt można powiedzieć podczas otwarcia; nie ma
+osobnej planszy organizacyjnej. Samego uczucia nie oceniamy jako błędu.
+
+Kazus 5G — krótki film archiwalny dodany 16.10.2026:
+Euronews, Laurence Alexandrowicz, „Le coronavirus n'est pas répandu par la 5G”,
+17.04.2020, 60 sekund, język francuski.
+https://fr.euronews.com/2020/04/17/le-coronavirus-n-est-pas-repandu-par-la-5g
+Nagranie odtwarzane bezpośrednio z publicznego serwera wydawcy; nie dołączono
+kopii filmu do pakietu. Wymaga internetu. Zachowano oryginalny materiał.
+Obok odtwarzacza znajduje się polskie omówienie, nie dosłowne napisy ani dubbing.
+Materiał dokumentuje obieg dezinformacji i relacjonowane podpalenia instalacji,
+nie potwierdza fałszywego związku 5G z COVID-19. Nie należy na podstawie samych
+ujęć pożaru wnioskować o technologii masztu ani motywie każdego sprawcy.
+Film uruchamia się z pierwszej planszy kazusu (strona 11/60).
+Przewidziana dodatkowa minuta oglądania mieści się w części kazusu 19–22 min;
+oznaczenia czasu w prezentacji pozostają orientacyjne.
+
+Southport — rozszerzenie 16.10.2026 (cztery plansze, 17–20; cały pokaz: 60):
+Chronologia ataku, sprostowań i zamieszek oraz ich skutki:
+https://publications.parliament.uk/pa/cm5901/cmselect/cmhaff/381/report.html
+Cardiff w Walii i obywatelstwo brytyjskie Axela Rudakubany:
+https://www.the-independent.com/news/uk/crime/southport-stabbing-latest-far-right-riots-b2590454.html
+Nagranie Euronews / No Comment, opublikowane 1.08.2024:
+https://www.euronews.com/video/2024/08/01/watch-over-100-arrested-during-protests-near-pms-residence-after-southport-tragedy
+Pokaz dotyczy starć w Londynie 31.07.2024, nie zamieszek pod meczetem w Southport.
+Odtwarzacz korzysta z publicznego pliku wydawcy i zatrzymuje się po 45 sekundach.
+Pełny materiał trwa 2 minuty; nie pobrano ani nie dołączono kopii do aplikacji.
+Wymaga internetu. Zachowano oryginalny dźwięk, z ostrzeżeniem przed seansem.
+Polski komentarz obok filmu jest omówieniem, nie dosłownym tłumaczeniem.
+Schemat emocja → pozorna pewność → presja działania jest modelem dydaktycznym,
+nie ustaleniem motywów każdego uczestnika. Dezinformacja nie była jedyną przyczyną.
+
+Korekta rytmu według W3 — 16.10.2026:
+Strony 2–7: otwarcie szkolnej symulacji, trzy posty, decyzje i pierwszy odruch.
+Strony 8–24: mechanizmy, filmy i przykłady poza szkolną historią.
+Strona 25: PRZERWA. Strona 26: przypomnienie trzech mechanizmów.
+Strony 27–51: jeden nieprzerwany blok rozwiązania, analizy i sprawdzenia
+rozumienia historii kiermaszu. Nie wracamy z niego do rzeczywistych kazusów.
+Przeniesiono tu wyjaśnienia dotyczące wiadomości Oli, metapoznania,
+oceny danych 2B i argumentu „szkoła kryje swoich”; zachowano pełną treść.
+Porównanie ostrzeżeń o fabrycznej partii ciastek P12 to odrębny, wyraźnie
+oznaczony fikcyjny przykład o produkcie, nie kolejna odsłona kiermaszu.
+
+Usunięto osobną planszę „Z klasowego czatu na forum całej szkoły”.
+Pierwszy post na forum zawiera załącznik assets/sources/ola-czat-1a.png:
+rzeczywisty zrzut wyrenderowanej w aplikacji fikcyjnej wiadomości Oli.
+Miniatura jest widoczna w poście i otwiera pełny obraz po kliknięciu.
+To element symulacji, a nie zrzut prywatnej rozmowy rzeczywistych uczniów.
