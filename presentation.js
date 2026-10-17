@@ -143,6 +143,10 @@ schoolStages.push(...schoolReview);
 deck[15].title='Ciasto ze zbiórki · rozwiązanie i wspólne omówienie';
 // Czas pozostaje orientacyjny; po przeniesieniu nie wracamy do minut lekcji 1.
 schoolStages.forEach((s,i)=>{s.minute=+(4+6*i/(schoolStages.length-1)).toFixed(1);});
+// Usunięte plansze 36–39 z zatwierdzonej wersji 60-stronicowej.
+// Stałe identyfikatory chronią przed usunięciem innych plansz po zmianie numeracji.
+const removedStages=new Set(['11:1','12:0','16:7','16:8']);
+deck.forEach(g=>{g.stages=g.stages.filter(s=>!removedStages.has(`${s.layoutPlan}:${s.layoutPhase}`));});
 deck=deck.filter(g=>g.stages.length);
 const totalPages=deck.reduce((sum,g)=>sum+g.stages.length,0);
 let current=0,phase=0,timerId=null,remaining=0,deadline=0,returnFocus=null;
