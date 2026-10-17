@@ -1,0 +1,104 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Głos sali · Twoja myśl</title><link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet"><style>
+  :root { --y: #FFD400; --o: #FFB000; --or: #93C5FD; --r: #E8291C; --g: #39C463; --gs: #CFF5D9; --rs: #FFD9D4; --sel: #BFDBFE; --k: #000; --w: #fff; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    font-family: "Source Sans 3", "Segoe UI", system-ui, sans-serif; color: var(--k);
+    background: var(--y) repeating-conic-gradient(from 0deg at 50% 0%, var(--y) 0deg 8deg, var(--o) 8deg 16deg);
+    min-height: 100vh; padding: 16px 14px 40px;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  .bang { font-family: "Bangers", Impact, sans-serif; letter-spacing: .03em; font-weight: 400; }
+  h1 { margin: 4px 0 14px; text-align: center; }
+  h1 span { display: inline-block; background: var(--k); color: var(--w); padding: .18em .6em .1em; font-size: clamp(22px, 6vw, 34px); line-height: 1.05; transform: rotate(-2deg); box-shadow: 6px 6px 0 var(--r); }
+  .dots { display: flex; justify-content: center; gap: 8px; margin: 18px 0 14px; }
+  .dot { width: 16px; height: 16px; border: 3px solid var(--k); background: var(--w); border-radius: 50%; }
+  .dot.done { background: var(--k); } .dot.now { background: var(--r); transform: scale(1.25); }
+  .card { background: var(--w); border: 4px solid var(--k); box-shadow: 8px 8px 0 var(--k); padding: 18px 16px 16px; }
+  .num { font-size: 22px; color: var(--r); margin: 0 0 4px; }
+  .q { font-size: clamp(19px, 5vw, 24px); font-weight: 700; line-height: 1.3; margin: 0 0 14px; }
+  .opt {
+    display: grid; grid-template-columns: 38px 1fr; gap: 10px; align-items: start; width: 100%; text-align: left;
+    font: inherit; font-size: 17px; line-height: 1.35; color: var(--k);
+    background: var(--w); border: 3px solid var(--k); padding: 10px 12px; margin: 0 0 10px; cursor: pointer;
+    box-shadow: 4px 4px 0 var(--k); transition: transform .1s;
+  }
+  .opt:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--k); }
+  .opt .l { font-family: "Bangers", Impact, sans-serif; font-size: 24px; line-height: 1; text-align: center; background: var(--y); border: 2px solid var(--k); padding: 4px 0 2px; }
+  .opt:disabled { cursor: default; opacity: .55; }
+  .opt.sel { background: var(--sel); box-shadow: 4px 4px 0 var(--k), inset 0 0 0 3px var(--k); }
+  .opt.picked { opacity: 1; }
+  .opt.picked.ok { background: var(--gs); border-color: var(--g); }
+  .opt.picked.bad { background: var(--rs); border-color: var(--r); }
+  .act { position: sticky; bottom: 12px; display: block; width: 100%; margin: 16px 0 0; font-family: "Bangers", Impact, sans-serif; font-size: 26px; letter-spacing: .04em; background: var(--or); color: var(--k); border: 4px solid var(--k); box-shadow: 6px 6px 0 var(--k); padding: .25em .5em .15em; cursor: pointer; }
+  .act:disabled { background: #ddd; color: #777; box-shadow: 6px 6px 0 #555; border-color: #555; cursor: default; }
+  .act.next { background: var(--g); color: var(--w); }
+  .hint { margin: 10px 0 0; text-align: center; font-size: 15px; color: #444; }
+  .fb { display: none; margin: 16px 0 0; text-align: center; }
+  .fb.show { display: block; animation: pop .45s cubic-bezier(.2, 1.7, .4, 1); }
+  .fb .big { display: inline-block; font-size: clamp(34px, 11vw, 54px); line-height: 1; padding: .14em .5em .06em; border: 4px solid var(--k); box-shadow: 6px 6px 0 var(--k); transform: rotate(-3deg); }
+  .fb.ok .big { background: var(--g); color: var(--w); }
+  .fb.bad .big { background: var(--r); color: var(--w); }
+  .fb p { margin: 12px 0 0; font-size: 17px; font-weight: 600; }
+  @keyframes pop { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .end { text-align: center; padding: 26px 18px; }
+  .end .big { font-size: clamp(36px, 11vw, 56px); line-height: 1.05; margin: 0 0 14px; }
+  .end p { font-size: 18px; line-height: 1.45; margin: 10px 0 0; }
+  .btn { font-family: "Bangers", Impact, sans-serif; font-size: 26px; letter-spacing: .04em; background: var(--or); color: var(--k); border: 4px solid var(--k); box-shadow: 6px 6px 0 var(--k); padding: .2em 1em .1em; margin-top: 18px; cursor: pointer; }
+  .spin { width: 46px; height: 46px; border: 6px solid var(--k); border-top-color: var(--y); border-radius: 50%; margin: 10px auto; animation: rot 1s linear infinite; }
+  @keyframes rot { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+.branding{background:#fff;padding:8px;margin:0 0 22px;border:2px solid #000}.branding img{display:block;width:100%;height:auto}
+:root{--edition:#D9A21B;--edition-ink:#101F35;--edition-light:#EAC34F}:root{--y:var(--edition);--o:#F1E6D0;--r:#D9232E;--k:#101F35;--w:#fff;--g:#446342;--gs:#e7eedf;--rs:#f8e1dc}
+body{background:#fff;color:#101F35;padding-top:18px}
+.wrap{position:relative;isolation:isolate}
+.wrap::before{content:"";position:absolute;z-index:-1;top:60px;left:-12px;right:8px;height:185px;background:var(--edition);transform:rotate(-2deg);clip-path:polygon(0 3%,97% 0,99% 16%,97% 34%,100% 52%,97% 74%,99% 97%,2% 100%)}
+.branding{border:0!important;padding:4px 0 14px!important;margin-bottom:20px!important;background:#fff}
+h1{text-align:left;margin:0 0 18px;padding:12px 4px}
+h1 span{font:700 clamp(27px,7vw,38px)/1.12 Georgia,serif;letter-spacing:-.035em;transform:none;background:#F1E6D0;color:#101F35;box-shadow:3px 4px 0 #101f3520;padding:9px 12px}
+.bang,.num,.opt .l,.act,.btn,.fb .big,.end .big{font-family:Arial,sans-serif;font-weight:800;letter-spacing:0}
+.dots{justify-content:flex-start;padding-left:10px;gap:10px;margin:8px 0 22px}
+.dot{width:13px;height:13px;border:1px solid #101F35;border-radius:0;transform:rotate(-4deg)}
+.dot.now{background:#101F35;outline:2px solid #fff;outline-offset:2px}
+.dot.done{background:#F1E6D0}
+.card{border:1px solid #c5bda9;border-top:6px solid var(--edition);box-shadow:5px 7px 0 #F1E6D0;padding:22px 18px;background:#fff}
+.num{font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:#526071;margin-bottom:12px}
+.q{font-family:Georgia,serif;font-size:clamp(21px,5.4vw,27px);line-height:1.25;margin-bottom:24px}
+.opt{border:1px solid #a6adad;box-shadow:2px 3px 0 #eee8dc;padding:13px 10px;grid-template-columns:30px 1fr;gap:12px;font-size:17px;line-height:1.4;margin-bottom:13px}
+.opt .l{font-size:18px;background:#F1E6D0;border:0;padding:6px 0;color:#101F35}
+.opt.sel{background:var(--sel);border:2px solid #285d91;box-shadow:2px 3px 0 #d7e3ed;padding:12px 9px}
+.act,.btn{font-size:21px;line-height:1.3;border:1px solid #101F35;box-shadow:3px 4px 0 #101F35;padding:12px;background:var(--or)}
+.act:disabled{background:#eeeae1;color:#727778;border-color:#aaa;box-shadow:3px 4px 0 #c5bda9}
+.hint{font-size:14px;line-height:1.4;margin-top:16px}
+.fb .big{font-size:32px;transform:rotate(-1deg);border:0;box-shadow:3px 4px 0 #F1E6D0;padding:10px 18px}
+@media(max-width:420px){body{padding:12px 12px 32px}.card{padding:18px 13px}.opt{font-size:16px}.branding{margin-bottom:12px!important}}
+body{background:var(--edition)}
+.wrap::before{background:#F1E6D0;opacity:.5}
+.branding{padding:8px!important}
+
+body{padding-bottom:28px}.wrap{max-width:560px}.branding{margin-bottom:8px!important}.intro{display:grid;grid-template-columns:1fr 108px;gap:8px;align-items:center;margin:4px 0 10px}.intro h1{margin:0;padding:0}.intro h1 span{font-size:clamp(27px,7.3vw,39px);display:inline-block}.hero{width:108px;height:120px;object-fit:contain;transform:rotate(7deg)}.intro p{font-size:16px;line-height:1.3;margin:12px 0 0}.dots{margin:10px 0 18px}.card{min-height:260px;animation:arrive .22s ease-out}.q{margin-bottom:18px}.opt{font-size:20px;align-items:center;min-height:59px}.opt:focus-visible,.act:focus-visible,.back:focus-visible,textarea:focus-visible{outline:3px solid #285d91;outline-offset:3px}.opt[aria-checked=true]{background:#BFDBFE;border:2px solid #285d91;box-shadow:2px 3px 0 #d7e3ed;padding:12px 9px}.opt .l{font-size:17px}.act{position:static;margin-top:20px;min-height:53px}.back{background:none;border:0;font:600 16px 'Source Sans 3',sans-serif;text-decoration:underline;color:#101F35;margin-top:20px;cursor:pointer;padding:8px}textarea{display:block;width:100%;min-height:140px;resize:vertical;border:2px solid #a6adad;background:#fbf8f0;color:#101F35;font:20px/1.4 'Source Sans 3',sans-serif;padding:14px;border-radius:0}.character-count{text-align:right;font-size:13px;color:#526071;margin:6px 0 0}.privacy{font-size:13px;line-height:1.4;color:#343f45;text-align:center;margin:22px 10px 0}.end .hero{width:155px;height:170px;display:block;margin:0 auto 20px}.end .big{font:700 33px/1.12 Georgia,serif}.sending{font-size:18px}#live{min-height:1px}.step-note{font-size:15px;color:#526071;line-height:1.4;margin:0 0 13px}@keyframes arrive{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@media(max-width:370px){.intro{grid-template-columns:1fr 80px}.intro .hero{width:80px;height:100px}.card{padding:17px 12px}.opt{font-size:19px}.intro h1 span{font-size:26px}}
+</style></head><body><main class="wrap"><div class="branding"><img src="https://raw.githubusercontent.com/KDS2026/emocje-warsztat/main/assets/project-logos.png" alt="Tour de Konstytucja PLUS · Nie daj się zrollować · Kompas Młodego Obywatela · Fundacja Aktywna Demokracja"></div><div class="intro"><div><h1><span>Głos sali.<br>Teraz Ty!</span></h1><p>Trzy pytania. Twoje spojrzenie.</p></div><img class="hero" src="https://raw.githubusercontent.com/KDS2026/emocje-warsztat/main/assets/glos-sali/mozg-kolaz.png" alt="Mózg z kolażu z kolorowego papieru"></div><div class="dots" id="dots" aria-label="Postęp"></div><div id="ekran"></div><p class="privacy">Bez imion, nazwisk i adresów e-mail. Nie wpisuj danych osobowych. Odpowiedzi zobaczymy na ekranie sali.</p><div id="live" role="status" aria-live="polite"></div></main><script>
+const QUESTIONS=['Kto daje się nabrać na dezinformację?','Czy umiesz rozpoznać dezinformację?','Czy ludzie w Polsce umieją rozpoznać dezinformację?'];
+const OPTIONS=['nie','raczej nie','raczej tak','tak'];
+let n=0,answers=['','',''],busy=false,finished=false;
+const submissionId=crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);
+const screen=document.getElementById('ekran');
+function el(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e}
+function progress(){const dots=document.getElementById('dots');dots.replaceChildren();QUESTIONS.forEach((_,i)=>{const d=el('span','dot'+(finished||i<n?' done':i===n?' now':''));d.setAttribute('aria-label','Pytanie '+(i+1)+(i===n?' — obecne':''));dots.append(d)});dots.setAttribute('aria-label',finished?'Zakończono':'Pytanie '+(n+1)+' z 3')}
+function render(){progress();screen.replaceChildren();const card=el('section','card');const num=el('p','num','Pytanie '+(n+1)+' z 3');const h=el('h2','q',QUESTIONS[n]);h.id='question-title';h.tabIndex=-1;card.append(num,h);const action=el('button','act',n===2?'Wyślij odpowiedzi':'Dalej');action.type='button';action.id='next';action.disabled=!answers[n].trim();
+if(n===0){const hint=el('p','step-note','Napisz, co myślisz. Jedno zdanie też daje do myślenia.');const text=el('textarea');text.id='thought';text.maxLength=500;text.value=answers[0];text.placeholder='Moim zdaniem…';text.setAttribute('aria-labelledby','question-title');const count=el('p','character-count',answers[0].length+' / 500');text.addEventListener('input',()=>{answers[0]=text.value;count.textContent=text.value.length+' / 500';action.disabled=!text.value.trim()});card.append(hint,text,count)}else{const group=el('div');group.setAttribute('role','radiogroup');group.setAttribute('aria-labelledby','question-title');OPTIONS.forEach((o,i)=>{const b=el('button','opt');b.type='button';b.setAttribute('role','radio');b.setAttribute('aria-checked',String(answers[n]===o));b.setAttribute('aria-label',o);b.append(el('span','l',['A','B','C','D'][i]),el('span',null,o));b.addEventListener('click',()=>{answers[n]=o;group.querySelectorAll('button').forEach(x=>x.setAttribute('aria-checked',String(x===b)));action.disabled=false});b.addEventListener('keydown',e=>{if(['ArrowDown','ArrowRight','ArrowUp','ArrowLeft'].includes(e.key)){e.preventDefault();const delta=['ArrowDown','ArrowRight'].includes(e.key)?1:-1;const next=group.children[(i+delta+4)%4];next.click();next.focus()}});group.append(b)});card.append(group)}
+action.onclick=()=>{if(!answers[n].trim()||busy)return;if(n<2){n++;render();document.getElementById('question-title').focus()}else send()};card.append(action);if(n>0){const back=el('button','back','← Poprzednie pytanie');back.type='button';back.onclick=()=>{n--;render();document.getElementById('question-title').focus()};card.append(back)}screen.append(card);window.scrollTo({top:0,behavior:'instant'})}
+const API = "https://script.google.com/macros/s/AKfycbxv6mjIeO8EnGjwa48GYOndW5psqIWIM54TY-RDm3Or0iwR2_l-iJio9vSRrB_cvAmR/exec";
+window.glosReceipt=function(r){const f=window.glosPending&&window.glosPending[r.id];if(f&&r.ok)f()};
+function submitAnswers(values,id,onSuccess,onFailure){
+ let done=false,checks=0;const pending=window.glosPending||(window.glosPending={});
+ const finish=()=>{if(done)return;done=true;delete pending[id];onSuccess({ok:true})};pending[id]=finish;
+ fetch(API,{method:'POST',mode:'no-cors',credentials:'omit',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({answers:values,id})}).catch(()=>{});
+ function poll(){if(done)return;if(++checks>35){done=true;delete pending[id];onFailure();return}const tag=document.createElement('script');tag.src=API+'?action=receipt&id='+encodeURIComponent(id)+'&t='+Date.now();tag.onload=tag.onerror=()=>tag.remove();document.body.append(tag);setTimeout(poll,2500)}setTimeout(poll,1500);
+}
+
+function send(){if(busy||finished)return;busy=true;screen.replaceChildren();const card=el('section','card end');card.append(el('p','big','Twój głos leci na salę…'),el('div','spin'),el('p','sending','Jeszcze chwila. Zapisujemy odpowiedzi.'));screen.append(card);const timer=setTimeout(()=>{if(busy){const p=el('p','hint','Zapis trwa dłużej. Zostaw tę stronę otwartą — czekamy na potwierdzenie.');card.append(p)}},20000);
+submitAnswers(answers,submissionId,result=>{clearTimeout(timer);busy=false;if(!result||!result.ok){failure();return}finished=true;progress();screen.replaceChildren();const done=el('section','card end');const img=el('img','hero');img.src='https://raw.githubusercontent.com/KDS2026/emocje-warsztat/main/assets/glos-sali/mozg-kolaz.png';img.alt='Mózg z kolażu z kolorowego papieru';done.append(img,el('h2','big','Głos oddany!'),el('p',null,'Dzięki. Twoje odpowiedzi zostały zapisane.'),el('p','hint','Mózg odkłada gwizdek. Teraz spójrz na ekran sali.'));screen.append(done);document.getElementById('live').textContent='Odpowiedzi zostały zapisane.'},()=>{clearTimeout(timer);busy=false;failure()})}
+function failure(){screen.replaceChildren();const card=el('section','card end');card.append(el('h2','big','Coś przerwało połączenie.'),el('p',null,'Twoje odpowiedzi nadal tu są. Spróbuj ponownie — nie musisz pisać od nowa.'));const retry=el('button','act','Spróbuj ponownie');retry.onclick=send;const back=el('button','back','Wróć do odpowiedzi');back.onclick=render;card.append(retry,back);screen.append(card);document.getElementById('live').textContent='Nie otrzymaliśmy potwierdzenia zapisu.'}
+render();
+</script></body></html>
