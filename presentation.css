@@ -1,4 +1,22 @@
 /* Jedno stałe płótno 1200 × 675, skalowane bez zmiany proporcji. */
+.review-stage .slide-inner .mechanism-options{display:block;font:800 40px/1.2 var(--body);color:var(--red);word-spacing:10px;margin:4px 0}
+.review-answer-inner .review-recognition{display:flex;flex-direction:column;gap:24px;flex:1;min-height:0}
+.review-answer-inner .review-recognition .review-post{margin-top:16px}
+.review-answer-inner .mechanism-result{display:flex;align-items:center;gap:22px;width:100%;padding:16px 24px;background:var(--red);color:#fff;border:0;text-align:left;cursor:pointer}
+.mechanism-result strong{font:800 38px/1.2 var(--body)}
+.mechanism-result .mechanism-expand-hint{margin-left:auto;font:600 17px/1.2 var(--body)}
+.mechanism-result .mechanism-plus{font:400 42px/1 var(--body)}
+.mechanism-result:hover{background:var(--red-dark)}
+.mechanism-result:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
+.review-answer-inner .review-detail{display:flex;flex-direction:column;gap:14px;flex:1;min-height:0}
+.review-detail-header{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.review-answer-inner .review-context{font:700 20px/1.2 var(--body);margin:0;color:#645855}
+.review-answer-inner .review-excerpt{font:700 25px/1.2 var(--body);margin:0;padding:0}
+.review-answer-inner .explanation-content{flex:1;gap:16px}
+.review-answer-inner .explanation-content h2{font-size:29px}
+.slide.review-stage .review-answer-inner .explanation-columns p{font-size:21px;line-height:1.28}
+.slide.review-stage .review-answer-inner .explanation-takeaway{font-size:21px;line-height:1.25;padding:12px 16px}
+.review-answer-inner [hidden]{display:none!important}
 /* Nawigacja należy do obszaru pełnoekranowego, ale nie zasłania planszy. */
 .shell.shell{padding:0;grid-template-rows:minmax(0,1fr) auto}
 .shell > .controls{position:static;width:100%;background:var(--paper)}
