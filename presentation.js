@@ -43,7 +43,7 @@ const review=[
 ];
 let deck=[
 group('EMOCJE · grupa czerwona',[
- st('EMOCJE',lead('Rozpoznaj emocje i sprawdź.')+p('<span class="equal-labels">LĘK · ZŁOŚĆ · LOJALNOŚĆ</span>'),'01-cover-heart.png',0,{red:true,logos:true})
+ st('EMOCJE',lead('Rozpoznaj emocje i sprawdź.')+p('<span class="equal-labels">LĘK · ZŁOŚĆ · LOJALNOŚĆ</span>'),'01-heart-magnifier.png',0,{red:true,logos:true})
 ]),
 group('Ciasto ze zbiórki',[
  st('Ciasto ze zbiórki',p('W liceum „Pod Lipami” Kuba z klasy 1C wraca do zdrowia po wypadku. Potrzebuje rehabilitacji, która jest kosztowna. Uczniowie z 2B chcą pomóc jego rodzinie, więc organizują tygodniowy kiermasz ciast.')+p('Ciasta pieką w domach razem z rodzicami. W szkole sprzedają je na przerwach, a pieniądze odkładają do puszki. Po poniedziałku i wtorku mają już 1240 zł. Wychowawczyni 2B codziennie przelicza zebrane pieniądze. W piątek mają zostać przekazane rodzicom Kuby na jego rehabilitację.')+p('W środę kilka osób nie przychodzi do szkoły.'),'02-history.png',2,{simulation:true}),
