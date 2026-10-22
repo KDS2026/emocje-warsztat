@@ -1,0 +1,90 @@
+{
+  "version": "semantic-v2-draft",
+  "question": "Kto daje się nabrać na dezinformację?",
+  "categories": [
+    {
+      "id": "everyone",
+      "label": "Każdy / wszyscy",
+      "family": "Zakres podatności",
+      "color": "#626B35",
+      "definition": "Twierdzenie, że dowolny człowiek lub wszyscy są podatni. Samo słowo każdy lub wszyscy nie wystarcza: każdy kto nie sprawdza oraz każdy zwolennik partii opisują ograniczoną grupę. Niezależnie od wieku nie oznacza wskazania kategorii Wiek."
+    },
+    {
+      "id": "self",
+      "label": "Ja / własna podatność",
+      "family": "Zakres podatności",
+      "color": "#737E42",
+      "definition": "Uczestnik wskazuje siebie lub własną grupę jako podatnych. Ja nie oznacza Każdy. Nie ja nie oznacza przyznania własnej podatności."
+    },
+    {
+      "id": "age",
+      "label": "Wiek",
+      "family": "Wiek",
+      "color": "#B62632",
+      "definition": "Wskazanie wieku lub pokolenia jako cechy podatnej grupy, także seniorzy, babcie, dziadkowie, millenialsi, boomerzy, uczniowie. Wykluczona grupa albo cytat niezwiązany z pytaniem nie stanowi dowodu."
+    },
+    {
+      "id": "education",
+      "label": "Wykształcenie",
+      "family": "Przypisywane cechy i kompetencje",
+      "color": "#3D508B",
+      "definition": "Formalne wykształcenie lub edukacja jako wskazana cecha grupy. Nie utożsamiaj automatycznie braku wiedzy z brakiem wykształcenia."
+    },
+    {
+      "id": "knowledge",
+      "label": "Wiedza",
+      "family": "Przypisywane cechy i kompetencje",
+      "color": "#6178AD",
+      "definition": "Brak lub ograniczenie wiedzy, poinformowania, rozumienia tematu lub znajomości narzędzi. Odróżniaj od formalnego wykształcenia i obraźliwej oceny inteligencji."
+    },
+    {
+      "id": "intelligence",
+      "label": "Ocena inteligencji",
+      "family": "Przypisywane cechy i kompetencje",
+      "color": "#283B70",
+      "definition": "Przypisywana inteligencja albo jej obraźliwa ocena, np. głupi, durnie. To kod wypowiedzi uczestnika, a nie prawdziwa ocena osób. Zaprzeczenie nie są głupi nie przypisuje tej cechy."
+    },
+    {
+      "id": "credulity",
+      "label": "Łatwowierność / brak sprawdzania",
+      "family": "Przypisywane cechy i kompetencje",
+      "color": "#7F91BD",
+      "definition": "Ufność, naiwność, bezkrytyczność, wiara bez sprawdzenia albo niesprawdzanie źródeł. Uwzględnij całe zdanie, synonimy i czytelne literówki."
+    },
+    {
+      "id": "emotion",
+      "label": "Emocje i strach",
+      "family": "Stan i sytuacja",
+      "color": "#AE6900",
+      "definition": "Emocje lub strach wskazane jako powód podatności. Samo wystąpienie słowa w cytacie nie wystarcza."
+    },
+    {
+      "id": "haste",
+      "label": "Pośpiech / zmęczenie / stres",
+      "family": "Stan i sytuacja",
+      "color": "#C18B20",
+      "definition": "Pośpiech, zmęczenie, stres, presja, przeciążenie lub brak namysłu jako powód podatności."
+    },
+    {
+      "id": "environment",
+      "label": "Otoczenie i źródła informacji",
+      "family": "Środowisko informacyjne",
+      "color": "#286B70",
+      "definition": "Wpływ środowiska informacyjnego, propagandy, mediów, algorytmów, bańki albo nacisku otoczenia. Sama wzmianka o internecie przy braku wiedzy o nim nie wymaga tej kategorii."
+    },
+    {
+      "id": "nobody",
+      "label": "Nikt",
+      "family": "Zakres podatności",
+      "color": "#818853",
+      "definition": "Jednoznaczne twierdzenie, że nikt nie jest podatny. Nie utożsamiaj z nie wiem ani nie ja."
+    },
+    {
+      "id": "other",
+      "label": "Inne",
+      "family": "Bez rozstrzygnięcia",
+      "color": "#616670",
+      "definition": "Znaczenie odpowiedzi nie mieści się w kluczu, wpis nie odpowiada na pytanie, jest cytatem, nazwą konkretnej osoby/grupy poza kluczem albo nie da się ustalić sensu. Nie ukrywaj tu oczywistych synonimów istniejących kategorii."
+    }
+  ]
+}
