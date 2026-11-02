@@ -31,7 +31,7 @@ body[data-round="po"] [data-round="po"][aria-pressed="true"]{background:#397BA7;
 @media(min-width:751px){body[data-mode="qr"] .stage{padding:1.5vh 4vw 2vh}#qr-view h1{font-size:clamp(36px,4vw,60px);margin-bottom:1.5vh}#qr-view .eyebrow{margin-bottom:10px}.qr-body{max-width:1280px;grid-template-columns:.8fr 1.2fr;gap:4vw}.qr-panel #qr img,.qr-panel #qr canvas{width:min(48vh,460px)!important;height:min(48vh,460px)!important}.qr-wrap{padding:12px}#qr{padding:16px}.qr-panel .hint{margin:12px auto 5px}.qr-panel .anonymous-note{font-size:clamp(24px,2.2vw,34px);margin:10px 0}.hero-cutout img{height:min(39vh,390px)}}
 @media(max-width:750px){.qr-body{grid-template-columns:.45fr 1fr;gap:12px}.qr-panel #qr img,.qr-panel #qr canvas{width:min(53vw,360px)!important;height:min(53vw,360px)!important}.qr-wrap{padding:8px}#qr{padding:12px}}
 </style></head><body><div class="texture"></div>
-<header><div class="identity"><span class="title" id="title"></span><span class="count" id="count">Wczytywanie…</span></div><div class="round-tools"><label>Miejscowość <input id="city" maxlength="100" placeholder="Wpisz miejscowość"></label><button data-round="przed" aria-pressed="true">PRZED · QR</button><button data-round="po" aria-pressed="false">PO · QR</button></div><nav aria-label="Widok ekranu"><button data-mode="cloud" aria-pressed="false">Chmura słów <small>C</small></button><button data-mode="results" aria-pressed="false">PRZED / PO <small>W</small></button></nav><div class="tools"><button id="review">Analiza kategorii</button><button id="download">Pobierz</button><button id="clear">Nowe warsztaty</button><button id="full">Pełny ekran · F</button></div></header>
+<header><div class="identity"><span class="title" id="title"></span><span class="count" id="count">Wczytywanie…</span></div><div class="round-tools"><label>Miejscowość <input id="city" maxlength="100" placeholder="Wpisz miejscowość"></label><button data-round="przed" aria-pressed="true">PRZED · QR</button><button data-round="po" aria-pressed="false">PO · QR</button></div><nav aria-label="Widok ekranu"><button data-mode="cloud" aria-pressed="false">Chmura słów <small>C</small></button><button data-mode="results" aria-pressed="false">PRZED / PO <small>W</small></button></nav><div class="tools"><button id="review">Analiza kategorii</button><button id="download">Pobierz</button><button id="clear">Nowe warsztaty</button><button id="sound-toggle" type="button" aria-pressed="false" title="Wyłącz muzykę w aplikacji">Wyłącz dźwięk</button><button id="full">Pełny ekran · F</button></div></header>
 <main class="stage"><section class="view" id="qr-view"><div class="eyebrow" id="round-label">PRZED WARSZTATEM</div><h1 id="question"></h1><div class="qr-body"><div class="hero-cutout"><img data-art="brain" alt="Mózg z kolażu z kolorowego papieru"><div class="paper-label">Myśli luzem.<br>Telefony w dłoń.</div></div><div class="qr-panel"><div class="qr-wrap"><div id="qr"></div><div id="setup" hidden>Wklej link do formularza w ustawieniu FORM_URL na górze skryptu.</div></div><p class="hint">Zeskanuj kod telefonem. Odpowiedz i wyślij formularz.</p><p class="anonymous-note">Wszystkie odpowiedzi są anonimowe.</p><a class="form-link" id="form-link" target="_blank" rel="noopener noreferrer"></a><audio id="waiting-music" hidden autoplay loop preload="metadata" aria-label="Muzyka podczas skanowania kodu QR" src="./assets/waiting.mp3"></audio></div></div></section>
 <section class="view" id="cloud-view" hidden><div class="measurement-switch" role="group" aria-label="Chmura — wybierz pomiar"><button data-view-round="przed" aria-pressed="true">Chmura PRZED</button><button data-view-round="po" aria-pressed="false">Chmura PO</button></div><div class="eyebrow">Tak myśli sala</div><div class="cloud-head"><img data-art="brain" alt=""><h1 id="cloud-title"></h1></div><div id="cloud"></div><p class="sub" id="review-note" role="status"></p></section>
 <section class="view" id="results-view" hidden><div class="results-heading"><img data-art="snail" alt=""><div class="eyebrow">Dwie perspektywy · odpowiedzi sali</div></div><div class="results" id="results"></div></section></main>
@@ -114,17 +114,25 @@ function results(){const box=$('results');box.replaceChildren();const info=docum
  for(const key of labels){const row=document.createElement('tr'),label=document.createElement('td');label.textContent=q===0?CATEGORY_KEY.find(c=>c.id===key).label:key;if(q===0)label.style.color=CATEGORY_KEY.find(c=>c.id===key).color;row.append(label);for(let i=0;i<2;i++){const r=['przed','po'][i],data=scoped(r),valid=q===0?data.filter(x=>reviewCategories(x).length):data.filter(x=>OPTIONS.includes(x.choices?.[q-1]));const n=q===0?groups[i].filter(g=>g.category.id===key).reduce((n,g)=>n+g.count,0):valid.filter(x=>x.choices[q-1]===key).length;const td=document.createElement('td');td.textContent=roundLoaded[r]?(valid.length?Math.round(100*n/valid.length)+'% · '+n:'— brak odpowiedzi'):'Wczytywanie…';row.append(td)}table.append(row)}article.append(table);box.append(article)}}
 
 function setMode(next){mode=next;document.querySelectorAll('[data-view-round]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.viewRound===activeRound)));document.body.dataset.mode=next;document.querySelectorAll('[data-round]').forEach(b=>b.setAttribute('aria-pressed',String(next==='qr'&&b.dataset.round===activeRound)));if(next==='qr')playWaitingMusic(true);else{++waitingMusicRequest;$('waiting-music').pause();}for(const key of ['qr','cloud','results'])$(key+'-view').hidden=key!==next;document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===next)))}
-let waitingMusicBlocked=false,waitingMusicRequest=0;
+let waitingMusicBlocked=false,waitingMusicRequest=0,waitingMusicMuted=false;
 function playWaitingMusic(restart=false){
  const music=$('waiting-music');
- if(mode!=='qr')return;
+ if(mode!=='qr'||waitingMusicMuted)return;
  const request=++waitingMusicRequest;
  if(restart){music.pause();music.currentTime=0;}
  const pending=music.play();
- if(pending)pending.then(()=>{if(request!==waitingMusicRequest)return;waitingMusicBlocked=false;if(mode!=='qr')music.pause()}).catch(()=>{if(request===waitingMusicRequest&&mode==='qr')waitingMusicBlocked=true});
+ if(pending)pending.then(()=>{if(request!==waitingMusicRequest)return;waitingMusicBlocked=false;if(mode!=='qr'||waitingMusicMuted)music.pause()}).catch(()=>{if(request===waitingMusicRequest&&mode==='qr')waitingMusicBlocked=true});
 }
 $('waiting-music').volume=0.45;$('waiting-music').muted=false;
-$('waiting-music').addEventListener('playing',()=>{if(mode!=='qr')$('waiting-music').pause()});
+$('waiting-music').addEventListener('playing',()=>{if(mode!=='qr'||waitingMusicMuted)$('waiting-music').pause()});
+$('sound-toggle').onclick=()=>{
+ waitingMusicMuted=!waitingMusicMuted;
+ const music=$('waiting-music');music.muted=waitingMusicMuted;
+ $('sound-toggle').setAttribute('aria-pressed',String(waitingMusicMuted));
+ $('sound-toggle').textContent=waitingMusicMuted?'Włącz dźwięk':'Wyłącz dźwięk';
+ $('sound-toggle').title=waitingMusicMuted?'Włącz muzykę w aplikacji':'Wyłącz muzykę w aplikacji';
+ if(waitingMusicMuted){++waitingMusicRequest;waitingMusicBlocked=false;music.pause();}else if(mode==='qr')playWaitingMusic();
+};
 function unlockWaitingMusic(){if(mode==='qr'&&waitingMusicBlocked)playWaitingMusic()}
 document.addEventListener('pointerdown',unlockWaitingMusic);
 document.addEventListener('click',()=>{if(mode==='qr'&&$('waiting-music').paused)playWaitingMusic()});
