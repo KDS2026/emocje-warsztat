@@ -24,10 +24,26 @@ window.glosExportStatus=r=>{if(r.id!==exportId)return;if(r.result.state==='saved
 download.onclick=async()=>{if(!city()){cityInput.focus();status.textContent='Najpierw wpisz miejscowość.';return}if(!verifiedAt||Date.now()-verifiedAt>45000){status.textContent='Czekamy na świeże potwierdzenie z arkusza. Spróbuj za chwilę.';refresh();return}const data=selected();if(!data.length){status.textContent='Nie ma jeszcze odpowiedzi do pobrania dla tego spotkania.';return}const content=makeCSV(data);const safe=city().normalize('NFC').replace(/[^\p{L}\p{N}_-]+/gu,'_').slice(0,90);const date=new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Warsaw'}).format(new Date());const filename=safe+'_'+date+'_ewaluacja.csv';const blob=new Blob([content],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),10000);exportId=crypto.randomUUID();clearInterval(exportPoll);clearTimeout(exportTimeout);window.open(PRIVATE+'?view=export&id='+exportId,'_blank');download.disabled=true;try{const bytes=new TextEncoder().encode(content);let binary='';bytes.forEach(b=>binary+=String.fromCharCode(b));await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'prepareExport',id:exportId,filename,content:btoa(binary)})});status.textContent='CSV pobrany. Trwa zapis kopii na Dysku — potwierdzenie pojawi się w otwartej karcie.';exportPoll=setInterval(()=>jsonp({action:'exportStatus',id:exportId}),2500);exportTimeout=setTimeout(()=>{clearInterval(exportPoll);status.textContent='CSV pobrany. Nie potwierdzono jeszcze kopii na Dysku — sprawdź otwartą kartę zapisu.'},90000)}catch(e){status.textContent='CSV pobrany. Nie udało się wysłać kopii na Dysk.'}finally{download.disabled=false}};
 const dialog=document.querySelector('#reset');document.querySelector('#new').onclick=()=>{if(!verifiedAt||Date.now()-verifiedAt>30000){status.textContent='Najpierw sprawdzamy zapis w arkuszu. Spróbuj za chwilę.';refresh();return}document.querySelector('#verified').textContent='Potwierdzono odczyt arkusza: '+new Date(verifiedAt).toLocaleString('pl-PL')+'. Liczba zapisanych refleksji z tej miejscowości w bieżącym spotkaniu: '+selected().length+'.';dialog.showModal()};document.querySelector('#cancel').onclick=()=>dialog.close();document.querySelector('#confirm').onclick=()=>{start=Date.now();localStorage.setItem('ewaluacja-workshop-start',String(start));readerIndex=0;readerId='';if(!reader.hidden)closeReader();count();dialog.close();status.textContent='Nowe spotkanie. Wcześniejsze odpowiedzi pozostają w arkuszu.'};async function full(){if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}document.querySelector('#full').onclick=full;document.addEventListener('keydown',e=>{if(e.key.toLowerCase()==='f'&&!['INPUT','TEXTAREA'].includes(e.target.tagName)){e.preventDefault();full()}});
 
-// Ciche tło tylko na planszy QR. Bez widocznego odtwarzacza.
+// Ciche tło tylko na planszy QR. Przycisk wycisza wyłącznie tę aplikację.
 const qrMusic=document.querySelector('#qr-music');qrMusic.volume=0.15;
-function startQrMusic(restart=false){if(!reader.hidden)return;if(restart)qrMusic.currentTime=0;qrMusic.play().catch(()=>{});}
-function stopQrMusic(){qrMusic.pause();qrMusic.currentTime=0;}
-// Przeglądarka może wymagać pierwszego kliknięcia przed odtworzeniem dźwięku.
-['pointerdown','keydown'].forEach(event=>document.addEventListener(event,()=>{if(reader.hidden&&qrMusic.paused)startQrMusic()},true));
+let qrMusicMuted=false,qrMusicRequest=0;
+function startQrMusic(restart=false){
+ if(!reader.hidden||qrMusicMuted)return;
+ const request=++qrMusicRequest;
+ if(restart)qrMusic.currentTime=0;
+ const pending=qrMusic.play();
+ if(pending)pending.then(()=>{if(request!==qrMusicRequest)return;if(qrMusicMuted||!reader.hidden)qrMusic.pause()}).catch(()=>{});
+}
+function stopQrMusic(){++qrMusicRequest;qrMusic.pause();qrMusic.currentTime=0;}
+qrMusic.addEventListener('playing',()=>{if(qrMusicMuted||!reader.hidden)qrMusic.pause()});
+document.querySelector('#sound-toggle').onclick=()=>{
+ qrMusicMuted=!qrMusicMuted;qrMusic.muted=qrMusicMuted;
+ const button=document.querySelector('#sound-toggle');
+ button.setAttribute('aria-pressed',String(qrMusicMuted));
+ button.textContent=qrMusicMuted?'Włącz dźwięk':'Wyłącz dźwięk';
+ button.title=qrMusicMuted?'Włącz muzykę w aplikacji':'Wyłącz muzykę w aplikacji';
+ if(qrMusicMuted)stopQrMusic();else startQrMusic();
+};
+// Pierwsza interakcja może odblokować odtwarzanie, ale nie znosi wyciszenia.
+['pointerdown','keydown'].forEach(event=>document.addEventListener(event,()=>{if(reader.hidden&&qrMusic.paused&&!qrMusicMuted)startQrMusic()},true));
 startQrMusic();
