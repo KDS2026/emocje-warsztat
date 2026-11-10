@@ -1,5 +1,5 @@
 const API='https://script.google.com/macros/s/AKfycbxv6mjIeO8EnGjwa48GYOndW5psqIWIM54TY-RDm3Or0iwR2_l-iJio9vSRrB_cvAmR/exec';
-function jsonp(params){const s=document.createElement('script');s.src=API+'?'+new URLSearchParams({...params,t:Date.now()});s.onerror=()=>s.remove();s.onload=()=>s.remove();document.body.append(s);setTimeout(()=>s.remove(),30000)}
+function jsonp(params){const s=document.createElement('script');s.crossOrigin='anonymous';s.src=API+'?'+new URLSearchParams({...params,t:Date.now()});s.onerror=()=>s.remove();s.onload=()=>s.remove();document.body.append(s);setTimeout(()=>s.remove(),30000)}
 const PRIVATE='https://script.google.com/a/macros/fad.ngo/s/AKfycbxctjztpfWNANHTnIiMo-VwNJk_Sc81Smk6K5PufIrSB9DTLNzkZ-R9Blef7miV_eao/exec';const PHONE='https://kds2026.github.io/emocje-warsztat/ewaluacja/';
 const cityInput=document.querySelector('#city'),status=document.querySelector('#status'),download=document.querySelector('#download');let rows=[],verifiedAt=0,request='',lastRequest=0;let start=Number(localStorage.getItem('ewaluacja-workshop-start')||0);cityInput.value=new URLSearchParams(location.search).get('miejscowosc')||'';
 let readerIndex=0,readerId='',readerCity='',readerFullscreen=false;
