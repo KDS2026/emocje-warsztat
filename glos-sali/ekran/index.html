@@ -31,7 +31,7 @@ body[data-round="po"] [data-round="po"][aria-pressed="true"]{background:#397BA7;
 @media(min-width:751px){body[data-mode="qr"] .stage{padding:1.5vh 4vw 2vh}#qr-view h1{font-size:clamp(36px,4vw,60px);margin-bottom:1.5vh}#qr-view .eyebrow{margin-bottom:10px}.qr-body{max-width:1280px;grid-template-columns:.8fr 1.2fr;gap:4vw}.qr-panel #qr img,.qr-panel #qr canvas{width:min(48vh,460px)!important;height:min(48vh,460px)!important}.qr-wrap{padding:12px}#qr{padding:16px}.qr-panel .hint{margin:12px auto 5px}.qr-panel .anonymous-note{font-size:clamp(24px,2.2vw,34px);margin:10px 0}.hero-cutout img{height:min(39vh,390px)}}
 @media(max-width:750px){.qr-body{grid-template-columns:.45fr 1fr;gap:12px}.qr-panel #qr img,.qr-panel #qr canvas{width:min(53vw,360px)!important;height:min(53vw,360px)!important}.qr-wrap{padding:8px}#qr{padding:12px}}
 </style></head><body><div class="texture"></div>
-<header><div class="identity"><span class="title" id="title"></span><span class="count" id="count">Wczytywanie…</span></div><div class="round-tools"><label>Miejscowość <input id="city" maxlength="100" placeholder="Wpisz miejscowość"></label><button data-round="przed" aria-pressed="true">PRZED · QR</button><button data-round="po" aria-pressed="false">PO · QR</button></div><nav aria-label="Widok ekranu"><button data-mode="cloud" aria-pressed="false">Chmura słów <small>C</small></button><button data-mode="results" aria-pressed="false">PRZED / PO <small>W</small></button></nav><div class="tools"><button id="archive-import">Odtwórz z pliku</button><button id="review">Analiza kategorii</button><button id="download">Pobierz</button><button id="clear">Nowe warsztaty</button><button id="sound-toggle" type="button" aria-pressed="false" title="Wyłącz muzykę w aplikacji">Wyłącz dźwięk</button><button id="full">Pełny ekran · F</button></div></header><div id="archive-banner" hidden style="background:#F1E6D0;padding:10px 20px;color:#101F35;font-weight:700"><span id="archive-label"></span> <button id="archive-live">Wróć do bieżącego spotkania</button></div>
+<header><div class="identity"><span class="title" id="title"></span><span class="count" id="count">Wczytywanie…</span></div><div class="round-tools"><label>Miejscowość <input id="city" maxlength="100" placeholder="Wpisz miejscowość"></label><button data-round="przed" aria-pressed="true">PRZED · QR</button><button data-round="po" aria-pressed="false">PO · QR</button></div><nav aria-label="Widok ekranu"><button data-mode="cloud" aria-pressed="false">Chmura słów <small>C</small></button><button data-mode="results" aria-pressed="false">PRZED / PO <small>W</small></button></nav><div class="tools"><button id="refresh-data" type="button">Odśwież odpowiedzi</button><button id="archive-import">Odtwórz z pliku</button><button id="review">Analiza kategorii</button><button id="download">Pobierz</button><button id="clear">Nowe warsztaty</button><button id="sound-toggle" type="button" aria-pressed="false" title="Wyłącz muzykę w aplikacji">Wyłącz dźwięk</button><button id="full">Pełny ekran · F</button></div></header><div id="archive-banner" hidden style="background:#F1E6D0;padding:10px 20px;color:#101F35;font-weight:700"><span id="archive-label"></span> <button id="archive-live">Wróć do bieżącego spotkania</button></div>
 <main class="stage"><section class="view" id="qr-view"><div class="eyebrow" id="round-label">PRZED WARSZTATEM</div><h1 id="question"></h1><div class="qr-body"><div class="hero-cutout"><img data-art="brain" alt="Mózg z kolażu z kolorowego papieru"><div class="paper-label">Myśli luzem.<br>Telefony w dłoń.</div></div><div class="qr-panel"><div class="qr-wrap"><div id="qr"></div><div id="setup" hidden>Wklej link do formularza w ustawieniu FORM_URL na górze skryptu.</div></div><p class="hint">Zeskanuj kod telefonem. Odpowiedz i wyślij formularz.</p><p class="anonymous-note">Wszystkie odpowiedzi są anonimowe.</p><a class="form-link" id="form-link" target="_blank" rel="noopener noreferrer"></a><audio id="waiting-music" hidden autoplay loop preload="metadata" aria-label="Muzyka podczas skanowania kodu QR" src="./assets/waiting.mp3"></audio></div></div></section>
 <section class="view" id="cloud-view" hidden><div class="measurement-switch" role="group" aria-label="Chmura — wybierz pomiar"><button data-view-round="przed" aria-pressed="true">Chmura PRZED</button><button data-view-round="po" aria-pressed="false">Chmura PO</button></div><div class="eyebrow">Tak myśli sala</div><div class="cloud-head"><img data-art="brain" alt=""><h1 id="cloud-title"></h1></div><div id="cloud"></div><p class="sub" id="review-note" role="status"></p></section>
 <section class="view" id="results-view" hidden><div class="results-heading"><img data-art="snail" alt=""><div class="eyebrow">Dwie perspektywy · odpowiedzi sali</div></div><div class="results" id="results"></div></section></main>
@@ -39,12 +39,163 @@ body[data-round="po"] [data-round="po"][aria-pressed="true"]{background:#397BA7;
 <dialog id="confirm"><h2>Rozpocząć nowe warsztaty?</h2><p>Dotychczasowe wpisy zostaną ukryte na tym urządzeniu. Dane pozostaną w arkuszu i w pobieranym pliku. Ekran pokaże odpowiedzi wysłane po tej chwili.</p><div class="dialog-actions"><button id="cancel">Anuluj</button><button class="danger" id="confirm-clear">Wyczyść wyniki i rozpocznij nowe</button></div></dialog>
 <dialog id="archive-dialog"><form id="archive-form"><h2>Odtwórz chmury z warsztatu</h2><p>Pliki są odczytywane na tym komputerze. Wybierz Excel z aplikacji albo CSV pobrany z arkusza Google.</p><label class="export-label">Pliki PRZED i PO<input id="archive-files" type="file" accept=".xlsx,.csv" multiple></label><label class="export-label">Data spotkania<select id="archive-date" disabled></select></label><label class="export-label">Miejsce spotkania<select id="archive-city" disabled style="max-width:100%"></select></label><p id="archive-summary" role="status">Wczytaj jeden Excel lub pliki CSV dla obu pomiarów.</p><div class="dialog-actions"><button type="button" id="archive-cancel">Zamknij</button><button type="submit" id="archive-open" disabled>Pokaż chmury</button></div></form></dialog><dialog id="export-dialog"><form id="export-form"><h2>Zapisz wyniki chmury</h2><p>Zapisz zbiorcze wyniki PRZED i PO dla wybranej miejscowości. Arkusz Excel (.xlsx) trafi na ten komputer oraz do folderu na Twoim Dysku Google.</p><label class="export-label" for="export-city">Miejscowość</label><input id="export-city" name="city" required maxlength="80" autocomplete="address-level2" placeholder="np. Łapanów"><p id="export-summary" class="export-small"></p><div class="dialog-actions"><button type="button" id="export-cancel">Anuluj</button><button type="submit" class="export-submit">Pobierz i zapisz na Dysku</button></div></form><div id="export-progress" hidden><h2>Eksport wyników</h2><p id="export-local-status"></p><p id="export-drive-status" role="status"></p><p id="export-name"></p><div id="export-links"></div><button type="button" id="export-retry" hidden>Ponów kopię na Dysku</button><button type="button" id="export-close">Zamknij</button></div></dialog>
 <script>
+/* Reliable live reads, revision 2026-11-16. */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.GlosRead = api;
+})(typeof globalThis === 'object' ? globalThis : this, function () {
+  'use strict';
+
+  function validate(message, request, round) {
+    if (!message || message.request !== request || message.round !== round ||
+        !Array.isArray(message.rows) || !Array.isArray(message.rows[0]) ||
+        message.rows[0].length < 4 || !message.rows.every(Array.isArray)) {
+      throw new Error('Nie potwierdzono odpowiedzi właściwego arkusza');
+    }
+    return message;
+  }
+
+  function parseResponse(text, request, round) {
+    // Read the existing JSONP response as data, without executing its contents.
+    const match = /^\s*window\.glosData\(\s*(\{[\s\S]*\})\s*\);?\s*$/.exec(text);
+    if (!match) throw new Error('Nieprawidłowa odpowiedź serwera');
+    return validate(JSON.parse(match[1]), request, round);
+  }
+
+  function createTransport(options) {
+    const host = options.host || globalThis;
+    const doc = options.document || host.document;
+    const fetchData = options.fetch || (host.fetch && host.fetch.bind(host));
+    const later = options.setTimeout || host.setTimeout.bind(host);
+    const cancel = options.clearTimeout || host.clearTimeout.bind(host);
+    const pending = new Map();
+    let sequence = 0;
+
+    host.glosData = message => {
+      const item = message && pending.get(message.request);
+      if (!item) return;
+      try { item.success(validate(message, message.request, item.round)); }
+      catch (_) { /* A response for another round cannot replace these data. */ }
+    };
+
+    function read(round) {
+      if (round !== 'przed' && round !== 'po') return Promise.reject(new Error('Nieprawidłowy pomiar'));
+      const request = host.crypto && host.crypto.randomUUID ? host.crypto.randomUUID() :
+        Date.now().toString(36) + '-' + (++sequence) + '-' + Math.random().toString(36).slice(2);
+      const url = options.url + '?' + new URLSearchParams({action:'data', round, request, t:String(Date.now())});
+      return new Promise((resolve, reject) => {
+        let done = false, script = null, jsonpStarted = false;
+        let fetchFailed = !fetchData, jsonpFailed = false;
+        const controller = typeof host.AbortController === 'function' ? new host.AbortController() : null;
+        let deadline, fallback;
+        function finish(error, result) {
+          if (done) return;
+          done = true;
+          pending.delete(request);
+          cancel(deadline);
+          cancel(fallback);
+          if (script) { script.onload = script.onerror = null; script.remove(); }
+          if (controller) controller.abort();
+          if (error) reject(error); else resolve(result);
+        }
+        function failed() {
+          if (fetchFailed && jsonpFailed) finish(new Error('Nie udało się odczytać arkusza'));
+        }
+        function startJsonp() {
+          if (done || jsonpStarted) return;
+          jsonpStarted = true;
+          cancel(fallback);
+          try {
+            script = doc.createElement('script');
+            script.async = true;
+            script.crossOrigin = 'anonymous';
+            script.referrerPolicy = 'no-referrer';
+            script.src = url;
+            script.onerror = script.onload = () => {
+              if (!done) { jsonpFailed = true; failed(); }
+            };
+            doc.body.append(script);
+          } catch (_) { jsonpFailed = true; failed(); }
+        }
+        pending.set(request, {round, success:result => finish(null, result)});
+        deadline = later(() => finish(new Error('Brak potwierdzenia arkusza')), options.timeoutMs || 15000);
+        // Usually fetch completes alone. A slow or blocked request also gets
+        // a credential-free script request; the first validated response wins.
+        fallback = later(startJsonp, options.fallbackMs == null ? 3500 : options.fallbackMs);
+        if (!fetchData) { startJsonp(); return; }
+        Promise.resolve().then(() => fetchData(url, {
+          method:'GET', mode:'cors', credentials:'omit', cache:'no-store',
+          redirect:'follow', ...(controller ? {signal:controller.signal} : {})
+        })).then(response => {
+          if (!response.ok) throw new Error('Odczyt HTTP ' + response.status);
+          return response.text();
+        }).then(text => finish(null, parseResponse(text, request, round))).catch(() => {
+          if (done) return;
+          fetchFailed = true;
+          startJsonp();
+          failed();
+        });
+      });
+    }
+    return {read};
+  }
+
+  function createPoller(options) {
+    const later = options.setTimeout || setTimeout;
+    const cancel = options.clearTimeout || clearTimeout;
+    const now = options.now || Date.now;
+    const rounds = ['przed', 'po'];
+    const state = Object.fromEntries(rounds.map(round => [round, {verifiedAt:0, error:false, loading:false}]));
+    const timers = {}, inFlight = {};
+    let stopped = false;
+    const paused = () => stopped || (options.isPaused && options.isPaused());
+    const publish = () => {
+      if (!paused() && options.onState) options.onState(Object.fromEntries(rounds.map(round => [round, {...state[round]}])));
+    };
+    function schedule(round) {
+      cancel(timers[round]);
+      if (!stopped) timers[round] = later(() => refreshRound(round), options.intervalMs || 5000);
+    }
+    function refreshRound(round) {
+      if (stopped) return Promise.resolve();
+      if (inFlight[round]) return inFlight[round];
+      cancel(timers[round]);
+      if (paused()) { schedule(round); return Promise.resolve(); }
+      state[round].loading = true;
+      publish();
+      inFlight[round] = Promise.resolve().then(() => options.read(round)).then(result => {
+        if (paused()) return;
+        options.onData(round, result);
+        state[round].verifiedAt = now();
+        state[round].error = false;
+      }).catch(() => {
+        if (!paused()) state[round].error = true;
+        // Keep the last confirmed rows. A network error is never zero votes.
+      }).finally(() => {
+        state[round].loading = false;
+        delete inFlight[round];
+        publish();
+        schedule(round);
+      });
+      return inFlight[round];
+    }
+    function refresh() { return Promise.allSettled(rounds.map(refreshRound)); }
+    function stop() { stopped = true; rounds.forEach(round => cancel(timers[round])); }
+    return {refresh, stop};
+  }
+
+  return {createTransport, createPoller, parseResponse};
+});
+
+</script>
+<script>
 /* ===================== USTAWIENIA — UZUPEŁNIJ TUTAJ ===================== */
 const FORM_URL = "https://kds2026.github.io/emocje-warsztat/glos-sali/"; // Link własnej aplikacji mobilnej dla uczestników.
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTe1hIYlUWKnD8wjB_hxs-ch8f0WHJD4tOJ-9K7DSCSgIumLQxDcBC-GlM2hfZp3YnXQw1f0cxX9q95/pub?gid=239627484&single=true&output=csv"; // Opublikowany arkusz: .../pub?output=csv (nie link do edycji).
 const QUESTION = "Kto daje się nabrać na dezinformację?"; // Puste: neutralne zaproszenie.
 const TITLE = ""; // Opcjonalny tytuł wydarzenia.
-const REFRESH_SECONDS = 15;
+const REFRESH_SECONDS = 5;
 const ROTATE_SECONDS = 9;
 /* ===================================================================== */
 // Przy 3 pytaniach kolejność kolumn: czas, myśl, samoocena, ocena innych.
@@ -59,7 +210,7 @@ const storageKey='glos-sali-workshop-start';
 let workshopStart=0;try{workshopStart=Number(localStorage.getItem(storageKey))||0}catch{}
 let cutoff=workshopStart;
 let loaded=false;let lastUpdatedAt=null;
-let all=[], visible=[], known=new Set(), priority=[], current='', mode='qr', changing=0, busy=false;
+let all=[], visible=[], known=new Set(), priority=[], current='', mode='qr', changing=0;
 const STOP = new Set(('a aby ach acz aczkolwiek ale albo ani aż bez bo bowiem być by był była było byli były będę będzie będą ci ciebie cię co coś czy czyli dla do gdy gdzie go i ich im ja jak jaka jaki jakie jako jednak jego jej jest jestem jesteśmy jeszcze jeżeli jeśli już kiedy kto która które który lub ma mam mamy mnie mogą może można mu my na nad nam nas nie niego niej nim niż no o od oraz po pod ponieważ przez przy przed się są sobie tak taka takie taki tam też to tego tej ten tu tylko u w wam was we więc właśnie wszystko z za ze że żeby the a an and or but of in on at to for from by with as is are was were be been being i you he she it we they me my your his her its our their this that these those who what which how why when where not no yes so can could would should have has had do does did into about than then very some any all them us sie siebie sobie tutaj tamten również też np chyba raczej').split(/\s+/));
 function parseCSV(text){const rows=[];let row=[],cell='',quoted=false; text=text.replace(/^\uFEFF/,'');for(let i=0;i<text.length;i++){const c=text[i];if(c==='"'){if(quoted&&text[i+1]==='"'){cell+='"';i++}else quoted=!quoted}else if(c===','&&!quoted){row.push(cell);cell=''}else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&text[i+1]==='\n')i++;row.push(cell);rows.push(row);row=[];cell=''}else cell+=c}if(quoted)throw Error('Niepełny plik CSV');if(cell||row.length){row.push(cell);rows.push(row)}return rows}
 function parseTime(s){s=s.trim();const m=s.match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})[ ,T]+(\d{1,2}):(\d{2})(?::(\d{2}))?/);if(m)return new Date(+m[3],+m[2]-1,+m[1],+m[4],+m[5],+(m[6]||0)).getTime();return Date.parse(s)}
@@ -138,15 +289,45 @@ function unlockWaitingMusic(){if(mode==='qr'&&waitingMusicBlocked)playWaitingMus
 document.addEventListener('pointerdown',unlockWaitingMusic);
 document.addEventListener('click',()=>{if(mode==='qr'&&$('waiting-music').paused)playWaitingMusic()});
 document.addEventListener('keydown',unlockWaitingMusic);
-const dataPending=new Map();
-window.glosData=function(message){const pending=dataPending.get(message.request);if(pending&&message.round===pending.round){dataPending.delete(message.request);pending.resolve(message)}};
-function readRound(round){return new Promise((resolve,reject)=>{const request=crypto.randomUUID(),script=document.createElement('script');const timeout=setTimeout(()=>{dataPending.delete(request);script.remove();reject(Error('Brak potwierdzenia arkusza'))},18000);dataPending.set(request,{round,resolve:m=>{clearTimeout(timeout);script.remove();resolve(m)}});script.crossOrigin='anonymous';script.src=EXPORT_API+'?action=data&round='+round+'&request='+request+'&t='+Date.now();script.onerror=()=>{clearTimeout(timeout);script.remove();dataPending.delete(request);reject(Error('Błąd połączenia'))};document.body.append(script)})}
+// Both measurements refresh independently. Failed reads preserve confirmed rows.
+let readTransport,livePoller;
+function readRound(round){
+ if(!readTransport)readTransport=GlosRead.createTransport({url:EXPORT_API});
+ return readTransport.read(round);
+}
 function rowsDecode(rows){return decode(rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n'))}
-function activateData(skipComment=false){all=scoped(activeRound);loaded=archiveMode||roundLoaded[activeRound];cutoff=archiveMode?0:workshopStart;render(skipComment)}
-async function refresh(){if(archiveMode){setTimeout(refresh,Math.max(5,REFRESH_SECONDS)*1000);return}if(busy)return;busy=true;try{const updates=await Promise.allSettled(['przed','po'].map(async round=>{const result=await readRound(round);const incoming=rowsDecode(result.rows);if(round===activeRound){const previous=new Set(roundData[round].map(r=>r.id));priority.unshift(...incoming.filter(r=>!previous.has(r.id)&&(!city||r.city===city)&&(!cutoff||r.time>cutoff)).reverse().map(r=>r.id));}roundData[round]=incoming;roundLoaded[round]=true;return round}));const hasPriority=priority.length>0;activateData(hasPriority);if(archiveMode)return;lastUpdatedAt=Date.now();$('status').className=updates.some(x=>x.status==='rejected')?'error':'';$('status').textContent=updates.some(x=>x.status==='rejected')?'Nie udało się odczytać jednego arkusza. Ponowię próbę; zachowano wyniki.':'Odczyt potwierdzony w dwóch arkuszach · '+new Date().toLocaleTimeString('pl-PL');}finally{busy=false;setTimeout(refresh,Math.max(5,REFRESH_SECONDS)*1000)}}
+function activateData(skipComment=false){all=scoped(activeRound);loaded=archiveMode||roundLoaded[activeRound];cutoff=archiveMode?0:workshopStart;$('refresh-data').disabled=archiveMode;render(skipComment)}
+function acceptRound(round,result){
+ if(archiveMode)return;
+ const incoming=rowsDecode(result.rows);
+ if(round===activeRound){
+  const previous=new Set(roundData[round].map(r=>r.id));
+  priority.unshift(...incoming.filter(r=>!previous.has(r.id)&&(!city||r.city===city)&&(!cutoff||r.time>cutoff)).reverse().map(r=>r.id));
+ }
+ roundData[round]=incoming;roundLoaded[round]=true;lastUpdatedAt=Date.now();
+ activateData(priority.length>0);
+}
+function readStatus(states){
+ if(archiveMode)return;
+ const rounds=['przed','po'],failed=rounds.filter(r=>states[r].error);
+ const stamp=r=>r.toUpperCase()+': '+(states[r].verifiedAt?new Date(states[r].verifiedAt).toLocaleTimeString('pl-PL'):'czekamy na odczyt');
+ $('status').className=failed.length?'error':'';
+ $('status').textContent=failed.length
+  ?'Problem z odczytem '+failed.map(r=>r.toUpperCase()).join(' i ')+'. Ponawiam automatycznie; zachowano ostatnie wyniki. '+rounds.map(stamp).join(' · ')
+  :(rounds.every(r=>states[r].verifiedAt)?'Odczyt potwierdzony · ':'Wczytujemy odpowiedzi · ')+rounds.map(stamp).join(' · ');
+ $('refresh-data').textContent=rounds.some(r=>states[r].loading)?'Odświeżanie…':'Odśwież odpowiedzi';
+}
+function refresh(){
+ if(!livePoller)livePoller=GlosRead.createPoller({read:readRound,onData:acceptRound,onState:readStatus,isPaused:()=>archiveMode,intervalMs:REFRESH_SECONDS*1000});
+ return livePoller.refresh();
+}
+$('refresh-data').onclick=refresh;
+window.addEventListener('online',refresh);
+window.addEventListener('focus',refresh);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
 function selectRound(round,keepView=false){const pageUrl=new URL(location.href);pageUrl.searchParams.set('runda',round);if(city)pageUrl.searchParams.set('miejscowosc',city);else pageUrl.searchParams.delete('miejscowosc');history.replaceState(null,'',pageUrl);activeRound=round;document.body.dataset.round=round;cutoff=workshopStart;current='';priority=[];document.querySelectorAll('[data-round]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.round===round)));$('round-label').textContent=(round==='przed'?'PRZED WARSZTATEM':'PO WARSZTACIE')+(city?' · '+city:'');activateData();initQR();setMode(keepView?mode:'qr')}
 document.querySelectorAll('[data-view-round]').forEach(b=>b.onclick=()=>selectRound(b.dataset.viewRound,true));
-$('city').onchange=()=>{city=$('city').value.trim();selectRound(activeRound)};document.querySelectorAll('[data-round]').forEach(b=>b.onclick=()=>selectRound(b.dataset.round));
+$('city').onchange=()=>{city=$('city').value.trim();selectRound(activeRound);refresh()};document.querySelectorAll('[data-round]').forEach(b=>b.onclick=()=>selectRound(b.dataset.round));
 
 $('title').textContent=TITLE;$('title').hidden=!TITLE;$('question').textContent=QUESTION||'Zeskanuj i podziel się swoją myślą';$('cloud-title').textContent=QUESTION||'Słowa naszej sali';
 document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
@@ -305,3 +486,4 @@ https://support.google.com/docs/answer/183965
 https://support.google.com/docs/answer/2839588
 
 -->
+
