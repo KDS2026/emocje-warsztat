@@ -193,14 +193,14 @@ body[data-round="po"] [data-round="po"][aria-pressed="true"]{background:#397BA7;
 /* ===================== USTAWIENIA — UZUPEŁNIJ TUTAJ ===================== */
 const FORM_URL = "https://kds2026.github.io/emocje-warsztat/glos-sali/"; // Link własnej aplikacji mobilnej dla uczestników.
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTe1hIYlUWKnD8wjB_hxs-ch8f0WHJD4tOJ-9K7DSCSgIumLQxDcBC-GlM2hfZp3YnXQw1f0cxX9q95/pub?gid=239627484&single=true&output=csv"; // Opublikowany arkusz: .../pub?output=csv (nie link do edycji).
-const QUESTION = "Kto daje się nabrać na dezinformację?"; // Puste: neutralne zaproszenie.
+const QUESTION = "Kto może dać się nabrać na dezinformację?"; // Puste: neutralne zaproszenie.
 const TITLE = ""; // Opcjonalny tytuł wydarzenia.
 const REFRESH_SECONDS = 5;
 const ROTATE_SECONDS = 9;
 /* ===================================================================== */
 // Przy 3 pytaniach kolejność kolumn: czas, myśl, samoocena, ocena innych.
 // Przy 1 pytaniu lub innej strukturze: ostatnia niepusta kolumna poza czasem.
-const QUESTIONS = ['Kto daje się nabrać na dezinformację?','Czy Ty umiesz rozpoznać dezinformację?','Czy ludzie w Polsce umieją rozpoznać dezinformację?'];
+const QUESTIONS = ['Kto może dać się nabrać na dezinformację?','Czy Ty umiesz rozpoznać dezinformację?','Czy ludzie w Polsce umieją rozpoznać dezinformację?'];
 const OPTIONS = ['nie','raczej nie','raczej tak','tak'];
 const $ = id => document.getElementById(id);
 let archiveMode=false;const archiveData={przed:[],po:[]};
@@ -410,7 +410,7 @@ GŁOS SALI — uruchomienie
 
 1. Wejdź na forms.google.com i utwórz pusty formularz. Nie włączaj quizu.
    Pierwsze pytanie (typ „Akapit”, wymagane):
-   Kto daje się nabrać na dezinformację?
+   Kto może dać się nabrać na dezinformację?
    W opisie poproś: „Napisz krótko. Nie wpisuj imion, nazwisk ani innych danych osobowych”.
 
 2. Dodaj sekcję 2 i w niej wymagane pytanie „Jednokrotny wybór”:

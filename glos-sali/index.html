@@ -87,7 +87,7 @@ html[data-round="po"] textarea{background:#F4F9FD;border-color:#7DA3BD}
 html[data-round="po"] .opt .l{background:#D6E8F6}
 html[data-round="po"] .act:disabled{background:#E4EDF4;box-shadow:3px 4px 0 #A9C5D8}
 </style></head><body><main class="wrap"><div class="branding"><img src="https://raw.githubusercontent.com/KDS2026/emocje-warsztat/main/assets/project-logos.png" alt="Tour de Konstytucja PLUS · Nie daj się zrollować · Kompas Młodego Obywatela · Fundacja Aktywna Demokracja"></div><div class="intro"><div><h1><span>Głos sali.<br>Teraz Ty!</span></h1><p>Trzy pytania. Twoje spojrzenie.</p><p class="anonymous-note">Wszystkie odpowiedzi są anonimowe.</p></div><img class="hero" src="https://raw.githubusercontent.com/KDS2026/emocje-warsztat/main/assets/glos-sali/mozg-kolaz.png" alt="Mózg z kolażu z kolorowego papieru"></div><div class="dots" id="dots" aria-label="Postęp"></div><div id="ekran"></div><p class="privacy">Bez imion, nazwisk i adresów e-mail. Nie wpisuj danych osobowych. Odpowiedzi zobaczymy na ekranie sali.</p><div id="live" role="status" aria-live="polite"></div></main><script>
-const QUESTIONS=['Kto daje się nabrać na dezinformację?','Czy Ty umiesz rozpoznać dezinformację?','Czy ludzie w Polsce umieją rozpoznać dezinformację?'];
+const QUESTIONS=['Kto może dać się nabrać na dezinformację?','Czy Ty umiesz rozpoznać dezinformację?','Czy ludzie w Polsce umieją rozpoznać dezinformację?'];
 const context=new URLSearchParams(location.search);const round=context.get('runda')||'przed';const city=(context.get('miejscowosc')||'').trim();document.documentElement.dataset.round=round;
 const OPTIONS=['nie','raczej nie','raczej tak','tak'];
 let n=0,answers=['','',''],busy=false,finished=false;
